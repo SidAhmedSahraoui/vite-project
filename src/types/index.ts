@@ -13,8 +13,33 @@ export interface AuthState {
   loading: boolean | null;
   loading_profile: boolean | null;
   user: User | null;
-  error: any | null;
+  error: Array<Error>;
 }
+
+// CategoriesState
+export interface CategoriesState {
+  categories: Array<Category>;
+  loading_categories: boolean;
+  loading: boolean;
+  category: Category | null;
+  loading_provider: boolean;
+  provider: Provider | null;
+  providers: Array<Provider>;
+  loading_providers: boolean;
+  error: Array<Error>;
+}
+
+// PlanningState
+export interface PlanningState {
+  loading: boolean;
+  planning: Planning | null;
+  days: Array<Day>;
+  slots: Array<Slot>;
+  error: Array<Error>;
+}
+
+// Error State
+export type ErrorState = Array<Error>;
 
 // User
 export interface User {
@@ -79,24 +104,9 @@ export interface Error {
   type: string;
 }
 
-// Error State
-export type ErrorState = Array<Error>;
-
 // LoadUserRequest
 export interface LoadUserRequest {
   request: string;
-}
-// CategoriesState
-export interface CategoriesState {
-  categories: Array<Category>;
-  loading_categories: boolean;
-  loading: boolean;
-  category: Category | null;
-  error: any | null;
-  loading_provider: boolean;
-  provider: Provider | null;
-  providers: Array<Provider>;
-  loading_providers: boolean;
 }
 
 // Category
@@ -112,4 +122,27 @@ export interface Provider {
   providerId: number;
   user: User;
   category: Category;
+}
+
+export interface Day {
+  dayId: number;
+  dayName: string;
+}
+
+export interface Slot {
+  timeSlotId: number;
+  startsAt: string;
+  endsAt: string;
+}
+
+export interface Planning {
+  days: Array<Day>;
+  slots: Array<Slot>;
+}
+
+export interface AddPlanningSchema {
+  token: string;
+  email: string;
+  daysAvailability: Array<number>;
+  slotsAvailability: Array<number>;
 }

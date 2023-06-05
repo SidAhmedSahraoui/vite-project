@@ -40,7 +40,7 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      //props.history.push("/");
+      window.location.href = "/";
     }
 
     // eslint-disable-next-line

@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 
 // Styles
 import useStyles from "./style";
+import { Card } from "react-bootstrap";
 
 const BookingPage: React.FC = () => {
   const classes = useStyles();
@@ -23,9 +24,10 @@ const BookingPage: React.FC = () => {
   const [slots, setSlots] = useState(Array<any>());
   useEffect(() => {
     dispatch(loadProvider(id || ""));
+    console.log(id);
 
     //eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -47,9 +49,9 @@ const BookingPage: React.FC = () => {
           </>
           <div className="days">
             {days.map(day => (
-              <div className="card" key={day.dayId}>
+              <Card className="card" key={day.dayId}>
                 <div className="card-body">{`${day.dayName[0]}${day.dayName.to}`}</div>
-              </div>
+              </Card>
             ))}
           </div>
           <div className="slots">

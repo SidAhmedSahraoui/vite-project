@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
 import { URL as Api } from "../../utils/api";
 import { CategoriesState } from "../../types";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState: CategoriesState = {
   categories: [],
@@ -13,7 +14,7 @@ const initialState: CategoriesState = {
   providers: [],
   loading_provider: false,
   provider: null,
-  error: null,
+  error: [],
 };
 
 export const categoriesSlice = createSlice({
@@ -29,7 +30,7 @@ export const categoriesSlice = createSlice({
       state.providers = [];
       state.loading_provider = false;
       state.provider = null;
-      state.error = null;
+      state.error = [];
     },
     setLoading: state => {
       state.loading = true;
@@ -59,11 +60,16 @@ export const categoriesSlice = createSlice({
       state.provider = action.payload;
       state.loading_provider = false;
     },
-    setAlert: (state, action) => {
-      state.error = action.payload;
+    addError: (state, action) => {
+      state.error.push({
+        id: uuidv4(),
+        message: action.payload,
+        type: "danger",
+      });
+      console.log(action.payload);
     },
     clearErrors: state => {
-      state.error = null;
+      state.error = [];
     },
   },
 });
@@ -78,7 +84,7 @@ export const {
   LoadedProviders,
   setLoadingProvider,
   LoadedProvider,
-  setAlert,
+  addError,
   clearErrors,
 } = categoriesSlice.actions;
 
@@ -94,7 +100,7 @@ export const loadCategories = (): AppThunk => async dispatch => {
 
     const errorMessage = response?.data || "Something unexpected happend!";
 
-    dispatch(setAlert(errorMessage));
+    dispatch(addError(errorMessage));
   }
 };
 
@@ -113,7 +119,7 @@ export const loadCategory =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(setAlert(errorMessage));
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -132,7 +138,7 @@ export const loadProviders =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(setAlert(errorMessage));
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -150,7 +156,7 @@ export const loadProvider =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(setAlert(errorMessage));
+      dispatch(addError(errorMessage));
     }
   };
 

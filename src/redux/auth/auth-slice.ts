@@ -17,7 +17,7 @@ const initialState: AuthState = {
   loading: false,
   loading_profile: false,
   user: null as User | null,
-  error: null,
+  error: [],
 };
 
 export const authSlice = createSlice({
@@ -30,7 +30,7 @@ export const authSlice = createSlice({
       state.loading = true;
       state.loading_profile = true;
       state.user = null;
-      state.error = null;
+      state.error = [];
     },
     authSuccess: (state, action) => {
       localStorage.setItem("token", action.payload.token);
@@ -38,7 +38,7 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.loading = false;
-      state.error = null;
+      state.error = [];
     },
     authFail: (state, action) => {
       localStorage.removeItem("token");
@@ -46,13 +46,14 @@ export const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       state.loading = false;
-      state.error = action.payload?.message;
+      state.error = [action.payload?.message];
+      console.log(state.error);
     },
     userLoaded: (state, action) => {
       state.isAuthenticated = true;
       state.loading = false;
       state.user = action.payload;
-      state.error = null;
+      state.error = [];
     },
     setLoading: state => {
       state.loading = true;
@@ -60,25 +61,27 @@ export const authSlice = createSlice({
     profileLoaded: (state, action) => {
       state.loading_profile = false;
       state.user = action.payload;
-      state.error = null;
+      state.error = [];
     },
     setLoadingProfile: state => {
       state.loading_profile = true;
     },
     updateProfile: (state, action) => {
       state.loading_profile = false;
-      state.error = action.payload?.message;
+      state.error = [action.payload?.message];
+      console.log(state.error);
     },
     updatePassword: state => {
       state.loading_profile = false;
-      state.error = null;
+      state.error = [];
     },
     profileError: (state, action) => {
       state.loading_profile = false;
-      state.error = action.payload;
+      state.error = [action.payload];
+      console.log(state.error);
     },
     clearErrors: state => {
-      state.error = null;
+      state.error = [];
     },
     logout: state => {
       localStorage.removeItem("token");
@@ -88,7 +91,7 @@ export const authSlice = createSlice({
       state.loading = false;
       state.loading_profile = false;
       state.user = null;
-      state.error = null;
+      state.error = [];
     },
   },
 });

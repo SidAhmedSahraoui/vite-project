@@ -33,7 +33,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      //window.location.href = "/";
+      window.location.href = "/";
     }
     // eslint-disable-next-line
   }, [isAuthenticated]);
