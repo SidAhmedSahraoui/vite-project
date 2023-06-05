@@ -1,19 +1,29 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/home";
+// Components
 import Navbar from "./components/navbar";
+
+// Utils
 import ScrollToTop from "./utils/scrollToTop";
+
+// Redux
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+
+// Toast
+import { Toaster } from "react-hot-toast";
+
+// Pages
+import Home from "./pages/home";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import { Toaster } from "react-hot-toast";
 import Interviews from "./pages/interviews";
 import InterviewShow from "./pages/interviews/interviewShow";
 import Profile from "./pages/profile";
 import CategoryProviders from "./pages/interviews/categoryProvider";
 import BookingPage from "./pages/booking";
 import Planning from "./pages/provider";
+
 function App() {
   return (
     <>

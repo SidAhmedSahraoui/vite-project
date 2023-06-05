@@ -66,11 +66,11 @@ const Navbar: React.FC = () => {
           ) : user &&
             user.roles.some((role: Role) => role.roleName === "PROVIDER") ? (
             <>
-              <Link className="dropdown-item" to="/panel">
+              <Link className="dropdown-item" to="/planning">
                 <FontAwesomeIcon className="icon mr-2" icon={faCheck} />
                 My planning
               </Link>
-              <Link className="dropdown-item" to="/users">
+              <Link className="dropdown-item" to="/appointments">
                 <FontAwesomeIcon className="icon mr-2" icon={faCalendarAlt} />
                 My appointments
               </Link>
@@ -193,8 +193,8 @@ const Navbar: React.FC = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/services">
-                    My Interviews
+                  <Link className="nav-link" to="/appointments">
+                    My Appointments
                   </Link>
                 </li>
               </>

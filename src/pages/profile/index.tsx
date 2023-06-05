@@ -4,7 +4,6 @@ import Helmet from "react-helmet";
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  clearErrors,
   loadUser,
   updateProfileAction,
   updatePasswordAction,
@@ -32,15 +31,14 @@ const Profile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (error) {
-      dispatch(setAlert(error, "danger"));
-      dispatch(clearErrors());
+    if (error.length > 0) {
+      error.forEach(element => {
+        dispatch(setAlert(element.message, "danger"));
+      });
     }
-
-    //eslint-disable-next-line
   }, [error]);
 
-  const { username, email, firstName, lastName, phone, roles } = user || {};
+  const { username, email, firstName, lastName, phone } = user || {};
 
   const [passwords, setPasswords] = useState({
     old_password: "",
