@@ -15,7 +15,7 @@ import {
 
 // Actions
 import { loadUser, logout } from "../../redux/auth/auth-slice";
-import { setAlert } from "../../redux/error/error-slice";
+//import { setAlert } from "../../redux/error/error-slice";
 
 // Logo
 import Logo from "../../assets/images/logo.svg";
@@ -25,7 +25,7 @@ import useStyles from "./navbar";
 import { Role } from "../../types";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, user, error } = useAppSelector(state => state.auth);
+  const { isAuthenticated, user } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
   const onLogout = () => {
@@ -37,13 +37,6 @@ const Navbar: React.FC = () => {
       dispatch(loadUser());
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (error) {
-      dispatch(setAlert(error, "danger"));
-    }
-  }, [error]);
-
   const userMenu = (
     <>
       <li className="dropdown">
@@ -195,7 +188,7 @@ const Navbar: React.FC = () => {
               user.roles.some((role: Role) => role.roleName === "PROVIDER") ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/panel">
+                  <Link className="nav-link" to="/planning">
                     Planning
                   </Link>
                 </li>

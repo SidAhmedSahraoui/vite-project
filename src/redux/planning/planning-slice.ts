@@ -1,10 +1,17 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
-import { PlanningState, Planning } from "../../types";
+import {
+  PlanningState,
+  Planning,
+  AddPlanningSchema,
+  Appointment,
+} from "../../types";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import colors from "../../styling/colors";
+import { URL as Api } from "../../utils/api";
+
 const initialState: PlanningState = {
   loading: false,
   planning: null,
@@ -70,6 +77,81 @@ export const {
   clearErrors,
 } = PlanningSlice.actions;
 
+export const getDays = (): AppThunk => async dispatch => {
+  try {
+    dispatch(setLoading());
+    const res: AxiosResponse = await axios.get(
+      `${Api}/interview-service/interviews/days`
+    );
+    dispatch(daysLoaded(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(addError("Error loading days"));
+  }
+};
+
+export const getSlots = (): AppThunk => async dispatch => {
+  try {
+    dispatch(setLoading());
+    const res: AxiosResponse = await axios.get(
+      `${Api}/interview-service/interviews/slots`
+    );
+    dispatch(slotsLoaded(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(addError("Error loading slots"));
+  }
+};
+
+export const getPlanning =
+  (email: string): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.get(
+        `${Api}/interview-service/interviews/${email}`
+      );
+      const planning: Planning = res.data;
+      console.log(planning);
+      dispatch(planningLoaded(res.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(addError("Error loading planning"));
+    }
+  };
+
+export const addPlanning =
+  (planning: AddPlanningSchema): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.post(
+        `${Api}/interview-service/interviews/add-planning`,
+        planning
+      );
+      dispatch(planningLoaded(res.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(addError("Error adding planning"));
+    }
+  };
+
+export const addAppointment =
+  (appointment: Appointment): AppThunk =>
+  async dispatch => {
+    try {
+      const res: AxiosResponse = await axios.post(
+        `${Api}/interview-service/interviews/add-appointment`,
+        appointment
+      );
+      console.log(res.data);
+      dispatch(addError("Appointment added successfully"));
+    } catch (err) {
+      console.log(err);
+      dispatch(addError("Error adding appointment"));
+    }
+  };
+
 export const setAlert =
   (message: string, type: string, timeout = 5000): AppThunk =>
   async dispatch => {
@@ -99,3 +181,5 @@ export const setAlert =
       });
     setTimeout(() => dispatch(removeError(id)), timeout);
   };
+
+export default PlanningSlice.reducer;

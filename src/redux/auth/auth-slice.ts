@@ -10,6 +10,7 @@ import {
   UpdatePasswordForm,
 } from "../../types";
 import { URL as Api } from "../../utils/api";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState: AuthState = {
   token: localStorage.getItem("token"),
@@ -40,14 +41,12 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = [];
     },
-    authFail: (state, action) => {
+    authFail: state => {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       state.token = null;
       state.isAuthenticated = false;
       state.loading = false;
-      state.error = [action.payload?.message];
-      console.log(state.error);
     },
     userLoaded: (state, action) => {
       state.isAuthenticated = true;
@@ -75,10 +74,16 @@ export const authSlice = createSlice({
       state.loading_profile = false;
       state.error = [];
     },
-    profileError: (state, action) => {
-      state.loading_profile = false;
-      state.error = [action.payload];
-      console.log(state.error);
+    addError: (state, action) => {
+      state.error.push({
+        id: uuidv4(),
+        message: action.payload,
+        type: "danger",
+      });
+      console.log(action.payload);
+    },
+    removeError: (state, action) => {
+      state.error.filter(err => err.id !== action.payload);
     },
     clearErrors: state => {
       state.error = [];
@@ -106,7 +111,8 @@ export const {
   setLoadingProfile,
   updateProfile,
   updatePassword,
-  profileError,
+  addError,
+  removeError,
   clearErrors,
   logout,
 } = authSlice.actions;
@@ -127,7 +133,8 @@ export const loadUser = (): AppThunk => async dispatch => {
     );
     dispatch(userLoaded(res.data));
   } catch (err) {
-    dispatch(authFail(err));
+    dispatch(authFail());
+    dispatch(addError(err));
   }
 };
 
@@ -148,7 +155,8 @@ export const register =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(authFail(errorMessage));
+      dispatch(authFail());
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -169,7 +177,8 @@ export const login =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(authFail(errorMessage));
+      dispatch(authFail());
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -184,7 +193,7 @@ export const loadProfile = (): AppThunk => async dispatch => {
     );
     dispatch(profileLoaded(res.data));
   } catch (err) {
-    dispatch(profileError(err));
+    dispatch(addError(err));
   }
 };
 
@@ -205,7 +214,8 @@ export const updateProfileAction =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(authFail(errorMessage));
+      dispatch(authFail());
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -226,7 +236,8 @@ export const updatePasswordAction =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(authFail(errorMessage));
+      dispatch(authFail());
+      dispatch(addError(errorMessage));
     }
   };
 
@@ -247,7 +258,8 @@ export const deleteUser =
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
-      dispatch(authFail(errorMessage));
+      dispatch(authFail());
+      dispatch(addError(errorMessage));
     }
   };
 

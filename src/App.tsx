@@ -13,7 +13,7 @@ import InterviewShow from "./pages/interviews/interviewShow";
 import Profile from "./pages/profile";
 import CategoryProviders from "./pages/interviews/categoryProvider";
 import BookingPage from "./pages/booking";
-
+import Planning from "./pages/provider";
 function App() {
   return (
     <>
@@ -34,6 +34,7 @@ function App() {
                 element={<CategoryProviders />}
               />
               <Route path="/booking/:id" element={<BookingPage />} />
+              <Route path="/planning" element={<Planning />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>

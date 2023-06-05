@@ -146,3 +146,12 @@ export interface AddPlanningSchema {
   daysAvailability: Array<number>;
   slotsAvailability: Array<number>;
 }
+
+export interface Appointment {
+  token: string;
+  clientEmail: string;
+  providerEmail: string;
+  date: Date | null;
+  day: number;
+  slot: number;
+}

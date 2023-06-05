@@ -4,11 +4,13 @@ import ui from "./ui/ui-slice";
 import auth from "./auth/auth-slice";
 import error from "./error/error-slice";
 import categories from "./categories/categories-slice";
+import planning from "./planning/planning-slice";
 export const store = configureStore({
   reducer: {
     ui,
     auth,
     categories,
+    planning,
     error,
   },
   devTools: true,

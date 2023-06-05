@@ -2,29 +2,80 @@ import React, { useState, Fragment, useEffect } from "react";
 import useStyles from "./style";
 import { Helmet } from "react-helmet";
 import { WEBSITE_NAME } from "../../utils/websiteData";
-import { toast } from "react-hot-toast";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import colors from "../../styling/colors";
 import { Dialog, Transition } from "@headlessui/react";
 
+// Redux
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  getDays,
+  getSlots,
+  getPlanning,
+  addPlanning,
+  addError,
+} from "../../redux/planning/planning-slice";
+import { loadUser } from "../../redux/auth/auth-slice";
+// Types
+import { AddPlanningSchema } from "../../types";
+import { setAlert } from "../../redux/error/error-slice";
 
 const Provider: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const { user, planning } = useAppSelector(state => state.auth);
-  const [daysPlan, setDaysPlan] = useState([
-    { id: 1, day: "Sunday", active: false },
-    { id: 2, day: "Monday", active: false },
-    { id: 3, day: "Tuesday", active: false },
-    { id: 4, day: "Wednesday", active: false },
-    { id: 5, day: "Thursday", active: false },
-    { id: 6, day: "Friday", active: false },
-    { id: 7, day: "Saturday", active: false },
-  ]);
+  const { planning, days, slots, error } = useAppSelector(
+    state => state.planning
+  );
+  const { user, isAuthenticated } = useAppSelector(state => state.auth);
+  const [requestToSend, setRequestToSend] = useState<AddPlanningSchema>({
+    token: "",
+    email: "",
+    daysAvailability: [],
+    slotsAvailability: [],
+  });
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [daysAvailability, setDaysAvailability] = useState<Array<number>>([]);
+  const [timing, setTiming] = useState({
+    start: 0,
+    end: 0,
+  });
+  const { start, end } = timing;
+
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTiming({
+      ...timing,
+      [e.target.name]: +e.target.value,
+    });
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (start === 0 || end === 0) {
+      dispatch(addError("Please select start and end time"));
+    } else if (daysAvailability.length === 0) {
+      dispatch(addError("Please select at least one day"));
+    } else {
+      const slots = Array<number>();
+      for (let i = start; i <= end; i++) {
+        slots.push(+i);
+      }
+      const token = localStorage.getItem("token");
+      const email = user?.email;
+      if (token && email) {
+        const request: AddPlanningSchema = {
+          token,
+          email,
+          daysAvailability: daysAvailability,
+          slotsAvailability: slots,
+        };
+        setRequestToSend(request);
+        openModal();
+        //dispatch(addPlanning(request));
+      } else {
+        dispatch(addError("Please login to add planning"));
+      }
+    }
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
   }
@@ -33,146 +84,28 @@ const Provider: React.FC = () => {
     setIsOpen(true);
   }
 
-  const closeAndSave = () => {
-    setIsOpen(true);
-    let days = daysPlan.filter(day => day.active === true);
-    let daysAvailability = days.map(day => day.id);
-    let slots = timeSlots.filter(slot => slot.active === true);
-    let slotsAvailability = slots.map(slot => slot.id);
-    console.log(daysAvailability, slotsAvailability, user);
-    addPlanning({
-      email: user?.email || "",
-      token: localStorage.getItem("token"),
-      daysAvailability,
-      slotsAvailability,
-    });
-
-    window.location.href = "/";
-  };
-  const [timeSlots, setTimeSlots] = useState([
-    { id: 1, startsAt: "00:00", endsAt: "00:30", active: false },
-    { id: 2, startsAt: "00:30", endsAt: "01:00", active: false },
-    { id: 3, startsAt: "01:00", endsAt: "01:30", active: false },
-    { id: 4, startsAt: "01:30", endsAt: "02:00", active: false },
-    { id: 5, startsAt: "02:00", endsAt: "02:30", active: false },
-    { id: 6, startsAt: "02:30", endsAt: "03:00", active: false },
-    { id: 7, startsAt: "03:00", endsAt: "03:30", active: false },
-    { id: 8, startsAt: "03:30", endsAt: "04:00", active: false },
-    { id: 9, startsAt: "04:00", endsAt: "04:30", active: false },
-    { id: 10, startsAt: "04:30", endsAt: "05:00", active: false },
-    { id: 11, startsAt: "05:00", endsAt: "05:30", active: false },
-    { id: 12, startsAt: "05:30", endsAt: "06:00", active: false },
-    { id: 13, startsAt: "06:00", endsAt: "06:30", active: false },
-    { id: 14, startsAt: "06:30", endsAt: "07:00", active: false },
-    { id: 15, startsAt: "07:00", endsAt: "07:30", active: false },
-    { id: 16, startsAt: "07:30", endsAt: "08:00", active: false },
-    { id: 17, startsAt: "08:00", endsAt: "08:30", active: false },
-    { id: 18, startsAt: "08:30", endsAt: "09:00", active: false },
-    { id: 19, startsAt: "09:00", endsAt: "09:30", active: false },
-    { id: 20, startsAt: "09:30", endsAt: "10:00", active: false },
-    { id: 21, startsAt: "10:00", endsAt: "10:30", active: false },
-    { id: 22, startsAt: "10:30", endsAt: "11:00", active: false },
-    { id: 23, startsAt: "11:00", endsAt: "11:30", active: false },
-    { id: 24, startsAt: "11:30", endsAt: "12:00", active: false },
-    { id: 25, startsAt: "12:00", endsAt: "12:30", active: false },
-    { id: 26, startsAt: "12:30", endsAt: "13:00", active: false },
-    { id: 27, startsAt: "13:00", endsAt: "13:30", active: false },
-    { id: 28, startsAt: "13:30", endsAt: "14:00", active: false },
-    { id: 29, startsAt: "14:00", endsAt: "14:30", active: false },
-    { id: 30, startsAt: "14:30", endsAt: "15:00", active: false },
-    { id: 31, startsAt: "15:00", endsAt: "15:30", active: false },
-    { id: 32, startsAt: "15:30", endsAt: "16:00", active: false },
-    { id: 33, startsAt: "16:00", endsAt: "16:30", active: false },
-    { id: 34, startsAt: "16:30", endsAt: "17:00", active: false },
-    { id: 35, startsAt: "17:00", endsAt: "17:30", active: false },
-    { id: 36, startsAt: "17:30", endsAt: "18:00", active: false },
-    { id: 37, startsAt: "18:00", endsAt: "18:30", active: false },
-    { id: 38, startsAt: "18:30", endsAt: "19:00", active: false },
-    { id: 39, startsAt: "19:00", endsAt: "19:30", active: false },
-    { id: 40, startsAt: "19:30", endsAt: "20:00", active: false },
-    { id: 41, startsAt: "20:00", endsAt: "20:30", active: false },
-    { id: 42, startsAt: "20:30", endsAt: "21:00", active: false },
-    { id: 43, startsAt: "21:00", endsAt: "21:30", active: false },
-    { id: 44, startsAt: "21:30", endsAt: "22:00", active: false },
-    { id: 45, startsAt: "22:00", endsAt: "22:30", active: false },
-    { id: 46, startsAt: "22:30", endsAt: "23:00", active: false },
-    { id: 47, startsAt: "23:00", endsAt: "23:30", active: false },
-    { id: 48, startsAt: "23:30", endsAt: "00:00", active: false },
-  ]);
-
-  const [slots, setSlots] = useState({
-    startsAt: 0,
-    endsAt: 0,
-  });
-  const { startsAt, endsAt } = slots;
-
-  const onChange = e => {
-    setSlots({ ...slots, [e.target.name]: +e.target.value });
-  };
-
-  const onSubmit = async e => {
-    e.preventDefault();
-
-    if (startsAt === 0 || endsAt === 0) {
-      toast("Please select time slot", {
-        icon: <FontAwesomeIcon icon={faCircleInfo} />,
-        style: {
-          borderRadius: "10px",
-          background: colors.danger,
-          fontWeight: 500,
-          fontSize: "1.2rem",
-          color: "#fff",
-        },
-      });
-      return;
-    } else if (startsAt > endsAt) {
-      toast("Start time must be less than end time", {
-        icon: <FontAwesomeIcon icon={faCircleInfo} />,
-        style: {
-          borderRadius: "10px",
-          background: colors.danger,
-          fontWeight: 500,
-          fontSize: "1.2rem",
-          color: "#fff",
-        },
-      });
-    } else if (!daysPlan.some(day => day.active === true)) {
-      toast("Please select at least one day", {
-        icon: <FontAwesomeIcon icon={faCircleInfo} />,
-        style: {
-          borderRadius: "10px",
-          background: colors.danger,
-          fontWeight: 500,
-          fontSize: "1.2rem",
-          color: "#fff",
-        },
-      });
+  function submitAndClose() {
+    dispatch(addPlanning(requestToSend));
+    closeModal();
+    dispatch(setAlert("Planning added successfully", "success"));
+  }
+  useEffect(() => {
+    dispatch(getDays());
+    dispatch(getSlots());
+    if (!isAuthenticated) {
+      dispatch(loadUser());
     } else {
-      let slots = timeSlots.map(slot => {
-        slot.active = false;
-        return slot;
-      });
-
-      for (let i = startsAt; i <= endsAt; i++) {
-        // eslint-disable-next-line array-callback-return
-        slots.filter(slot => {
-          if (slot.id === i) {
-            slot.active = true;
-          }
-        });
-      }
-      setTimeSlots(slots);
-      openModal();
+      dispatch(getPlanning(user?.email || ""));
     }
-  };
+  }, [isAuthenticated]);
 
   useEffect(() => {
-    if (user && user.email) {
-      getProviderByEmail(user.email);
+    if (error.length > 0) {
+      error.forEach(element => {
+        dispatch(setAlert(element.message, "danger"));
+      });
     }
-    console.log(planning);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [error]);
 
   return (
     <>
@@ -288,7 +221,7 @@ const Provider: React.FC = () => {
                         borderWidth: "1px",
                         borderColor: "transparent",
                       }}
-                      onClick={closeAndSave}
+                      onClick={submitAndClose}
                     >
                       Got it, thanks!
                     </button>
@@ -307,7 +240,7 @@ const Provider: React.FC = () => {
           </h6>
         </div>
 
-        <div className="content mt-5 mb-5">
+        <form onSubmit={onSubmit} className="content mt-5 mb-5">
           <h4 className="post-title">Current Work Shift</h4>
           <div className="posts-sub-title mt-3">
             You are currently available from :{" "}
@@ -345,23 +278,25 @@ const Provider: React.FC = () => {
           <h4 className="post-title">Work Days</h4>
 
           <div className="posts mt-3">
-            {daysPlan.map(day => (
+            {days.map(day => (
               <div
-                key={day.id}
+                key={day.dayId}
                 className={`postitem postitem-card p-3 mb-4 ${
-                  day.active ? "active" : ""
+                  daysAvailability.some(num => num === day.dayId)
+                    ? "active"
+                    : ""
                 }`}
                 onClick={() => {
-                  const newDays = daysPlan.map(d => {
-                    if (d.day === day.day) {
-                      return { ...d, active: !d.active };
-                    }
-                    return d;
-                  });
-                  setDaysPlan(newDays);
+                  if (daysAvailability.some(num => num === day.dayId)) {
+                    setDaysAvailability([
+                      ...daysAvailability.filter(num => num !== day.dayId),
+                    ]);
+                  } else {
+                    setDaysAvailability([...daysAvailability, day.dayId]);
+                  }
                 }}
               >
-                {day.day}
+                {day.dayName}
               </div>
             ))}
           </div>
@@ -369,19 +304,19 @@ const Provider: React.FC = () => {
 
           <div className="posts mt-3 work-shift">
             <div className="form-group">
-              <label htmlFor="startsAt" className="input-label">
+              <label htmlFor="start" className="input-label">
                 Start Time
               </label>
               <select
-                id="startsAt"
-                name="startsAt"
-                value={startsAt}
+                id="start"
+                name="start"
+                value={start}
                 onChange={onChange}
                 className="custom-select input-select input-text"
               >
                 <option value={0}>Select Time To Start</option>
-                {timeSlots.map(slot => (
-                  <option key={slot.id} value={slot.id}>
+                {slots.map(slot => (
+                  <option key={slot.timeSlotId} value={slot.timeSlotId}>
                     {slot.startsAt}
                   </option>
                 ))}
@@ -389,19 +324,19 @@ const Provider: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="endsAt" className="input-label">
+              <label htmlFor="end" className="input-label">
                 End Time
               </label>
               <select
-                id="endsAt"
-                name="endsAt"
-                value={endsAt}
+                id="end"
+                name="end"
+                value={end}
                 onChange={onChange}
                 className="custom-select input-select input-text"
               >
                 <option value={0}>Select Time To End</option>
-                {timeSlots.map(slot => (
-                  <option key={slot.id} value={slot.id}>
+                {slots.map(slot => (
+                  <option key={slot.timeSlotId} value={slot.timeSlotId}>
                     {slot.endsAt}
                   </option>
                 ))}
@@ -409,11 +344,11 @@ const Provider: React.FC = () => {
             </div>
           </div>
           <div className="posts" style={{ marginTop: "48px" }}>
-            <button onClick={onSubmit} className="button-primary-outline">
+            <button type="submit" className="button-primary-outline">
               Save Work Plan
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );
