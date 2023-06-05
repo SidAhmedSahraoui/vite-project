@@ -112,8 +112,10 @@ export const getPlanning =
         `${Api}/interview-service/interviews/${email}`
       );
       const planning: Planning = res.data;
-      console.log(planning);
-      dispatch(planningLoaded(res.data));
+      planning.slots = planning?.slots?.sort(
+        (a, b) => a.timeSlotId - b.timeSlotId
+      );
+      dispatch(planningLoaded(planning));
     } catch (err) {
       console.log(err);
       dispatch(addError("Error loading planning"));

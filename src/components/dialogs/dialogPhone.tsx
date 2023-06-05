@@ -2,9 +2,10 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
-
-import Spinner from "../spinner";
+import {
+  faCircleArrowDown,
+  faPhoneAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import useStyles from "./style";
 
@@ -12,13 +13,12 @@ interface Props {
   show: boolean;
   phone: string;
   onHide: () => void;
-  loading: boolean;
 }
 
 const DialogPhone: React.FC<Props> = props => {
   const classes = useStyles();
 
-  const { show, phone, onHide, loading } = props;
+  const { show, phone, onHide } = props;
 
   return (
     <>
@@ -29,8 +29,11 @@ const DialogPhone: React.FC<Props> = props => {
         centered
       >
         <Modal.Body className="text-center py-4">
-          {loading ? (
-            <Spinner />
+          {!phone ? (
+            <>
+              <FontAwesomeIcon className="icon mr-2" icon={faCircleArrowDown} />
+              <h5 className="title">No phone number available</h5>
+            </>
           ) : (
             <>
               <FontAwesomeIcon className="icon mr-2" icon={faPhoneAlt} />

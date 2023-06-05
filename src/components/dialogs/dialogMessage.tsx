@@ -9,7 +9,6 @@ import useStyles from "./style";
 interface Props {
   show: boolean;
   message: string;
-  loadingSend: boolean;
   onHide: () => void;
   handleMessageOnChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   sendMessage: () => void;
@@ -18,14 +17,7 @@ interface Props {
 const DialogMessage: React.FC<Props> = props => {
   const classes = useStyles();
 
-  const {
-    show,
-    message,
-    loadingSend,
-    onHide,
-    handleMessageOnChange,
-    sendMessage,
-  } = props;
+  const { show, message, onHide, handleMessageOnChange, sendMessage } = props;
   return (
     <>
       <Modal
@@ -42,17 +34,12 @@ const DialogMessage: React.FC<Props> = props => {
             className="form-control mt-3"
             rows={4}
             value={message}
-            disabled={loadingSend}
             onChange={handleMessageOnChange}
           />
 
-          <button
-            className="button-primary mt-3"
-            disabled={loadingSend}
-            onClick={sendMessage}
-          >
+          <button className="button-primary mt-3" onClick={sendMessage}>
             <FontAwesomeIcon className="mr-2" icon={faPaperPlane} />
-            {loadingSend ? "Sending..." : "Send"}
+            Send
           </button>
         </Modal.Body>
       </Modal>

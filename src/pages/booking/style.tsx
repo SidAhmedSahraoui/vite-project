@@ -14,7 +14,6 @@ const useStyles = createUseStyles({
   page: {
     padding: "40px 20px",
     marginBottom: "40px",
-    maxWidth: "1020px",
     margin: "0 auto",
     marginTop: "35px",
     "&.card-shadow": CARD_SHADOW,
@@ -31,7 +30,7 @@ const useStyles = createUseStyles({
     },
 
     "& .content": {
-      width: "fit-content",
+      width: "100%",
       "& .button-primary": {
         ...BUTTON_PRIMARY,
         "&:hover": {
@@ -48,26 +47,73 @@ const useStyles = createUseStyles({
       },
 
       "& .link-primary": LINK_PRIMARY,
-      "& .days": {
+      "& .pick": {
         display: "flex",
+        justifyContent: "center",
+        gap: "20px",
         flexWrap: "wrap",
-        justifyContent: "space-evenly",
-        "& .card": {
-          width: "fit-content",
-          padding: "10px 20px",
-          margin: "10px",
-          borderRadius: "5px",
-          background: colors["primary"],
-          color: colors["text-gray-700"],
-          fontWeight: "600",
-          cursor: "pointer",
-          "&.active": {
-            background: colors["primary-hover"],
+        flexDirection: "row",
+        alignItems: "stretch",
+        alignContent: "stretch",
+        width: "100%",
+        margin: "0px",
+        "& .slots": {
+          width: "55%",
+          "& .tab-list": {
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexDirection: "row",
+            marginBottom: "20px",
+            "& .page": {
+              ...BUTTON_DANGER,
+            },
+          },
+          "& .radio-group": {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+            maxHeight: "350px",
+            alignItems: "stretch",
+            overflowX: "hidden",
+            "& .radio-option": {
+              ...BUTTON_PRIMARY_OUTLINE,
+              marginBottom: "12px",
+              marginRight: "12px",
+              cursor: "pointer",
+            },
+            "& .bg-selected": {
+              background: colors["text-gray-400"],
+            },
+            "& .bg-not-selected": {
+              background: colors["text-gray-100"],
+            },
+          },
+        },
+        "& .days": {
+          backgroundColor: colors["text-gray-300"],
+          borderRadius: "8px",
+          boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+          padding: "20px 40px",
+          "& .card": {
+            width: "fit-content",
+            padding: "10px 20px",
+            margin: "10px",
+            borderRadius: "5px",
+            background: colors["primary"],
+            color: colors["text-gray-700"],
+            fontWeight: "600",
+            cursor: "pointer",
+            "&.active": {
+              background: colors["primary-hover"],
+            },
           },
         },
       },
 
       "& .section": {
+        margin: "40px 25px",
         "& .title": {
           fontSize: "18px",
           color: colors.primary,

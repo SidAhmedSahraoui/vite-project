@@ -86,14 +86,13 @@ const PostItem = (props: any) => {
     <tr>
       <td>{providerId}</td>
       <td>
-        <Link className="link-primary" to={`/booking/${user.email}`}>
+        <Link className="link-primary" to={`/booking/${user.userId}`}>
           {`${user.firstName} ${user.lastName}`}{" "}
         </Link>
       </td>
       <td>{category != null && category.title}</td>
       <td>{Date.now() != null && formatedDate(Date.now())}</td>
       <td>{"1500 DZA"}</td>
-
       <td>{"30 min"}</td>
 
       <td>
@@ -106,7 +105,7 @@ const PostItem = (props: any) => {
         </span>
       </td>
       <td>
-        <Link className="button-primary" to={`/booking/${user.email}`}>
+        <Link className="button-primary" to={`/booking/${user.userId}`}>
           {"Book Now!"} <FontAwesomeIcon className="ml-1" icon={faArrowRight} />
         </Link>
       </td>
