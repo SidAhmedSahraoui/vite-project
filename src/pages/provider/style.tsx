@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
   page: {
     padding: "40px 20px",
     marginBottom: "40px",
-    maxWidth: "1020px",
+    maxWidth: "90%",
     margin: "0 auto",
     marginTop: "35px",
     "&.card-shadow": CARD_SHADOW,

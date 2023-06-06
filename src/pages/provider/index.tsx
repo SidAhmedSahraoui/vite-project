@@ -95,7 +95,7 @@ const Provider: React.FC = () => {
     if (!isAuthenticated) {
       dispatch(loadUser());
     } else {
-      dispatch(getPlanning(user?.email || ""));
+      dispatch(getPlanning(user?.userId as number));
     }
   }, [isAuthenticated]);
 

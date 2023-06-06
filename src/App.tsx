@@ -23,8 +23,8 @@ import Profile from "./pages/profile";
 import CategoryProviders from "./pages/interviews/categoryProvider";
 import BookingPage from "./pages/booking";
 import Planning from "./pages/provider";
-import ClientAppointments from "./pages/appointments/clientAppointments";
-import ProviderAppointments from "./pages/appointments/providerAppointments";
+import ClientAppointments from "./pages/appointments/client";
+import ProviderAppointments from "./pages/appointments/provider";
 
 function App() {
   return (

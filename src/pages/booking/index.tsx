@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   addAppointment,
   getPlanning,
+  setAlert,
 } from "../../redux/planning/planning-slice";
 
 // Utils
@@ -17,7 +18,7 @@ import "react-day-picker/dist/style.css";
 
 // Calendar
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
 // Components
 import Spinner from "../../components/spinner";
@@ -25,6 +26,7 @@ import { RadioGroup, Tab } from "@headlessui/react";
 import { Row } from "react-bootstrap";
 import clsx from "clsx";
 import { Appointment } from "../../types";
+import { isAfter } from "date-fns";
 
 const Booking: React.FC = () => {
   const classes = useStyles();
@@ -37,7 +39,7 @@ const Booking: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getPlanning(id || ""));
+    dispatch(getPlanning(parseInt(id || "-1")));
     //eslint-disable-next-line
   }, [id]);
 
@@ -63,7 +65,22 @@ const Booking: React.FC = () => {
       providerId,
     };
 
-    dispatch(addAppointment(appointment));
+    if (
+      isAfter(selected || new Date(), new Date()) ||
+      isSameDay(selected || new Date(), new Date())
+    ) {
+      dispatch(addAppointment(appointment));
+    } else {
+      dispatch(setAlert("You can't book an appointment in the past", "danger"));
+    }
+  };
+
+  useEffect(() => {
+    setFormatedDate(format(selected || new Date(), "yyyy-MM-dd"));
+  }, [selected]);
+
+  const isDisabled = (date: any) => {
+    return !planning?.days.some(day => day.dayId === date.getDay() + 1);
   };
 
   return (
@@ -92,6 +109,7 @@ const Booking: React.FC = () => {
                 selected={selected}
                 onSelect={setSelected}
                 footer={false}
+                modifiers={{ disabled: isDisabled }}
               />
             </div>
             <div className="slots">

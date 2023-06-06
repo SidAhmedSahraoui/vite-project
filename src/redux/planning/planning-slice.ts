@@ -118,12 +118,12 @@ export const getSlots = (): AppThunk => async dispatch => {
 };
 
 export const getPlanning =
-  (email: string): AppThunk =>
+  (id: number): AppThunk =>
   async dispatch => {
     try {
       dispatch(setLoading());
       const res: AxiosResponse = await axios.get(
-        `${Api}/interview-service/interviews/${email}`
+        `${Api}/interview-service/interviews/${id}`
       );
       const planning: Planning = res.data;
       planning.slots = planning?.slots?.sort(
@@ -198,6 +198,23 @@ export const getAppointmentsForProvider =
     } catch (err) {
       console.log(err);
       dispatch(addError("Error loading appointments"));
+    }
+  };
+
+export const cancelAppointment =
+  (id: number, email: string): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.delete(
+        `${Api}/interview-service/interviews/appointments/${id}`
+      );
+      dispatch(setAlert(res.data?.message, "success"));
+      dispatch(getAppointmentsForClient(email));
+      dispatch(getAppointmentsForProvider(email));
+    } catch (err) {
+      console.log(err);
+      dispatch(setAlert("Error canceling appointment", "danger"));
     }
   };
 

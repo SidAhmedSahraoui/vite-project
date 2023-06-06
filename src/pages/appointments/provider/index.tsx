@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
 import Helmet from "react-helmet";
 // Actions
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getAppointmentsForProvider } from "../../redux/planning/planning-slice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import {
+  cancelAppointment,
+  getAppointmentsForProvider,
+} from "../../../redux/planning/planning-slice";
 
 // Utils
-import { WEBSITE_NAME } from "../../utils/websiteData";
+import { WEBSITE_NAME } from "../../../utils/websiteData";
 
 // Styles
 import useStyles from "./style";
 
 // Components
-import Spinner from "../../components/spinner";
+import Spinner from "../../../components/spinner";
 import { Button, Card, CardGroup, Placeholder, Row } from "react-bootstrap";
 
 const ProviderAppointments: React.FC = () => {
@@ -31,10 +34,13 @@ const ProviderAppointments: React.FC = () => {
     //eslint-disable-next-line
   }, [user]);
 
+  const deleteAppointment = (id: number) => {
+    dispatch(cancelAppointment(id, user?.email || ""));
+  };
   return (
     <>
       <Helmet>
-        <title>{`${WEBSITE_NAME} | Booking`}</title>
+        <title>{`${WEBSITE_NAME} | Appointments`}</title>
       </Helmet>
 
       <div className={`${classes.page} card-shadow text-center`}>
@@ -77,24 +83,35 @@ const ProviderAppointments: React.FC = () => {
                         </Card.Text>
                         <Row className="btns">
                           <Button variant="primary">Go to meeting</Button>
-                          <Button variant="danger">Cancel appointment</Button>
+                          <Button
+                            variant="danger"
+                            onClick={() =>
+                              deleteAppointment(appointment.appointmentId)
+                            }
+                          >
+                            Cancel appointment
+                          </Button>
                         </Row>
                       </Card.Body>
                     </Card>
                   ))
                 ) : (
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                      <Placeholder as={Card.Title} animation="glow">
-                        <Placeholder xs={6} />
-                      </Placeholder>
-                      <Placeholder as={Card.Text} animation="glow">
-                        <Placeholder xs={7} /> <Placeholder xs={4} />{" "}
-                        <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
-                        <Placeholder xs={8} />
-                      </Placeholder>
-                      <Placeholder.Button variant="primary" xs={6} />
+                  <Card style={{ width: "18rem" }} className="card">
+                    <Card.Body className="card-body">
+                      <Card.Text>
+                        <strong>No appointments </strong>
+                      </Card.Text>
+                      <Card.Text>
+                        <Placeholder as="p" animation="glow">
+                          <Placeholder xs={12} />
+                        </Placeholder>
+                      </Card.Text>
+                      <Card.Text>
+                        <Placeholder as="p" animation="glow">
+                          <Placeholder xs={12} />
+                        </Placeholder>
+                      </Card.Text>
+                      <Row className="btns"></Row>
                     </Card.Body>
                   </Card>
                 )}

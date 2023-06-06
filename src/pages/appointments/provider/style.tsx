@@ -1,5 +1,5 @@
 import { createUseStyles } from "react-jss";
-import colors from "../../styling/colors";
+import colors from "../../../styling/colors";
 import {
   CARD_SHADOW,
   BUTTON_PRIMARY,
@@ -8,7 +8,7 @@ import {
   BUTTON_LIGHT,
   LINK_PRIMARY,
   BUTTON_DANGER,
-} from "../../styling/styling";
+} from "../../../styling/styling";
 
 const useStyles = createUseStyles({
   page: {
