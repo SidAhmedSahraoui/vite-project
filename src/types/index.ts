@@ -36,6 +36,8 @@ export interface PlanningState {
   days: Array<Day>;
   slots: Array<Slot>;
   error: Array<Error>;
+  provider_appointments: Array<MyAppointment>;
+  client_appointments: Array<MyAppointment>;
 }
 
 // Error State
@@ -150,8 +152,31 @@ export interface AddPlanningSchema {
 export interface Appointment {
   token: string;
   clientEmail: string;
-  providerEmail: string;
-  date: Date | null;
+  providerId: number;
+  date: Date | string | null;
   day: number;
   slot: number;
+}
+
+export interface MyAppointment {
+  appointmentId: number;
+  clientEmail: string;
+  providerEmail: string;
+  appointmentDate: string;
+  startsAt: string;
+  endsAt: string;
+  client: Client;
+  provider: Provider;
+}
+
+export interface Client {
+  clientId: number;
+  email: string;
+  username: string;
+}
+
+export interface Provider {
+  providerId: number;
+  email: string;
+  username: string;
 }

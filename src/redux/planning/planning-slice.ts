@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
 import {
@@ -18,6 +18,8 @@ const initialState: PlanningState = {
   days: [],
   slots: [],
   error: [],
+  provider_appointments: [],
+  client_appointments: [],
 };
 
 export const PlanningSlice = createSlice({
@@ -46,14 +48,24 @@ export const PlanningSlice = createSlice({
       state.planning = action.payload;
       state.error = [];
     },
+    clientAppointmentsLoaded: (state, action) => {
+      state.loading = false;
+      state.client_appointments = action.payload;
+      state.error = [];
+    },
+    providerAppointmentsLoaded: (state, action) => {
+      state.loading = false;
+      state.provider_appointments = action.payload;
+      state.error = [];
+    },
     setLoading: state => {
       state.loading = true;
     },
     addError: (state, action) => {
       state.error.push({
         id: uuidv4(),
-        message: action.payload,
-        type: "danger",
+        message: action.payload?.message || action.payload,
+        type: action.payload?.type || "danger",
       });
       console.log(action.payload);
     },
@@ -71,6 +83,8 @@ export const {
   slotsLoaded,
   daysLoaded,
   planningLoaded,
+  clientAppointmentsLoaded,
+  providerAppointmentsLoaded,
   setLoading,
   addError,
   removeError,
@@ -147,10 +161,43 @@ export const addAppointment =
         appointment
       );
       console.log(res.data);
-      dispatch(addError("Appointment added successfully"));
+      dispatch(setAlert("Appointment added successfully", "success"));
+    } catch (err) {
+      const { response } = err as AxiosError;
+      const errorMessage: any =
+        response?.data || "Something unexpected happend!";
+
+      dispatch(setAlert(errorMessage?.message, "danger"));
+    }
+  };
+
+export const getAppointmentsForClient =
+  (id: string): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.get(
+        `${Api}/interview-service/interviews/appointments/client/${id}`
+      );
+      dispatch(clientAppointmentsLoaded(res.data));
     } catch (err) {
       console.log(err);
-      dispatch(addError("Error adding appointment"));
+      dispatch(addError("Error loading appointments"));
+    }
+  };
+
+export const getAppointmentsForProvider =
+  (id: string): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.get(
+        `${Api}/interview-service/interviews/appointments/provider/${id}`
+      );
+      dispatch(providerAppointmentsLoaded(res.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(addError("Error loading appointments"));
     }
   };
 

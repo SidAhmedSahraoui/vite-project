@@ -27,7 +27,6 @@ const Profile: React.FC = () => {
   const { user, loading_profile, error } = useAppSelector(state => state.auth);
   useEffect(() => {
     dispatch(loadUser());
-    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {

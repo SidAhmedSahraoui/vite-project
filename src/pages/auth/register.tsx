@@ -42,16 +42,12 @@ const Register: React.FC = () => {
     if (isAuthenticated) {
       window.location.href = "/";
     }
-
-    // eslint-disable-next-line
   }, [isAuthenticated]);
 
   useEffect(() => {
     if (error) {
       dispatch(setAlert(error, "danger"));
     }
-
-    // eslint-disable-next-line
   }, [error]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

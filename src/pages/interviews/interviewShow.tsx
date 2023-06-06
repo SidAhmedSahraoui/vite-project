@@ -79,7 +79,6 @@ const InterviewShow: React.FC = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(loadCategory(id || "0"));
-    //eslint-disable-next-line
   }, []);
 
   const { categoryId, title, description } = category || {};

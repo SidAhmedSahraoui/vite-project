@@ -206,8 +206,8 @@ const Navbar: React.FC = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/services">
-                    Services
+                  <Link className="nav-link" to="/appointments/client">
+                    My Appointments
                   </Link>
                 </li>
                 <li className="nav-item">

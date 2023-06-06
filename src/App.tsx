@@ -23,6 +23,8 @@ import Profile from "./pages/profile";
 import CategoryProviders from "./pages/interviews/categoryProvider";
 import BookingPage from "./pages/booking";
 import Planning from "./pages/provider";
+import ClientAppointments from "./pages/appointments/clientAppointments";
+import ProviderAppointments from "./pages/appointments/providerAppointments";
 
 function App() {
   return (
@@ -43,6 +45,11 @@ function App() {
                 path="/interviews/:id/providers"
                 element={<CategoryProviders />}
               />
+              <Route
+                path="/appointments/client"
+                element={<ClientAppointments />}
+              />
+              <Route path="/appointments" element={<ProviderAppointments />} />
               <Route path="/booking/:id" element={<BookingPage />} />
               <Route path="/planning" element={<Planning />} />
               <Route path="/" element={<Home />} />

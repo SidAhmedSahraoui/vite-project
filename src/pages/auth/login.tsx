@@ -35,15 +35,12 @@ const Login: React.FC = () => {
     if (isAuthenticated) {
       window.location.href = "/";
     }
-    // eslint-disable-next-line
   }, [isAuthenticated]);
 
   useEffect(() => {
     if (error) {
       dispatch({ type: "SET_ALERT", payload: error });
     }
-
-    // eslint-disable-next-line
   }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

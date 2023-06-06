@@ -24,8 +24,6 @@ const CategoryProviders: React.FC = () => {
 
   useEffect(() => {
     dispatch(loadProviders(id || ""));
-
-    //eslint-disable-next-line
   }, []);
 
   return (

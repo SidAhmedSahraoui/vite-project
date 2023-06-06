@@ -39,8 +39,6 @@ const Interviews: React.FC = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(loadCategories());
-
-    //eslint-disable-next-line
   }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>

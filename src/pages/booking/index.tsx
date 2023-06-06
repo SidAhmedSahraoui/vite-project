@@ -2,7 +2,10 @@ import React, { useState, useEffect, Fragment } from "react";
 import Helmet from "react-helmet";
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getPlanning } from "../../redux/planning/planning-slice";
+import {
+  addAppointment,
+  getPlanning,
+} from "../../redux/planning/planning-slice";
 
 // Utils
 import { WEBSITE_NAME } from "../../utils/websiteData";
@@ -21,12 +24,14 @@ import Spinner from "../../components/spinner";
 import { RadioGroup, Tab } from "@headlessui/react";
 import { Row } from "react-bootstrap";
 import clsx from "clsx";
+import { Appointment } from "../../types";
 
-const BookingPage: React.FC = () => {
+const Booking: React.FC = () => {
   const classes = useStyles();
 
   const dispatch = useAppDispatch();
 
+  const { user } = useAppSelector(state => state.auth);
   const { planning, loading } = useAppSelector(state => state.planning);
 
   const { id } = useParams();
@@ -37,17 +42,30 @@ const BookingPage: React.FC = () => {
   }, [id]);
 
   const [selected, setSelected] = useState<Date>();
-  const [formatedDate, setFormatedDate] = useState<string>("");
+  const [formatedDate, setFormatedDate] = useState<string>(
+    format(selected || new Date(), "yyyy-MM-dd")
+  );
   const [plan, setPlan] = useState<number>(0);
 
   const onBookInterview = () => {
-    console.log(formatedDate, plan);
+    const date: string = formatedDate;
+    const slot: number = plan;
+    const day: number = (selected || new Date()).getDay() + 1 || 0;
+    const token: string = localStorage.getItem("token") || "";
+    const clientEmail: string = user?.email || "";
+    const providerId: number = parseInt(id || "-1");
+    const appointment: Appointment = {
+      date,
+      slot,
+      day,
+      token,
+      clientEmail,
+      providerId,
+    };
+
+    dispatch(addAppointment(appointment));
   };
 
-  useEffect(() => {
-    setFormatedDate(format(selected || new Date(), "yyyy-MM-dd"));
-    //eslint-disable-next-line
-  }, [selected]);
   return (
     <>
       <Helmet>
@@ -187,4 +205,4 @@ const BookingPage: React.FC = () => {
   );
 };
 
-export default BookingPage;
+export default Booking;
