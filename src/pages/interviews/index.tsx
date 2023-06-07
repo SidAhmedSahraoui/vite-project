@@ -17,6 +17,7 @@ import Spinner from "../../components/spinner";
 import PostItem from "./postItem";
 // Styles
 import useStyles from "./style";
+import Sidbar from "../../components/sidbar";
 
 const Interviews: React.FC = () => {
   const classes = useStyles();
@@ -185,6 +186,9 @@ const Interviews: React.FC = () => {
                     ))
                   )}
                 </div>
+              </div>
+              <div className="col-12 col-lg-3">
+                <Sidbar />
               </div>
             </div>
           </div>

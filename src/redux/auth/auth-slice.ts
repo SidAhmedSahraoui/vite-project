@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
 import {
@@ -11,6 +11,8 @@ import {
 } from "../../types";
 import { URL as Api } from "../../utils/api";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-hot-toast";
+import colors from "../../styling/colors";
 
 const initialState: AuthState = {
   token: localStorage.getItem("token"),
@@ -77,7 +79,7 @@ export const authSlice = createSlice({
     addError: (state, action) => {
       state.error.push({
         id: uuidv4(),
-        message: action.payload,
+        message: action.payload?.message || action.payload,
         type: "danger",
       });
       console.log(action.payload);
@@ -133,8 +135,12 @@ export const loadUser = (): AppThunk => async dispatch => {
     );
     dispatch(userLoaded(res.data));
   } catch (err) {
+    const { response } = err as any;
+
+    const errorMessage = response?.data || "Something unexpected happend!";
+
     dispatch(authFail());
-    dispatch(addError(err));
+    dispatch(setAlert(errorMessage?.message, "danger"));
   }
 };
 
@@ -151,12 +157,12 @@ export const register =
       dispatch(authSuccess(res.data));
       dispatch(loadUser());
     } catch (err) {
-      const { response } = err as AxiosError;
+      const { response } = err as any;
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
       dispatch(authFail());
-      dispatch(addError(errorMessage));
+      dispatch(setAlert(errorMessage?.message, "danger"));
     }
   };
 
@@ -173,12 +179,12 @@ export const login =
       dispatch(authSuccess(res.data));
       dispatch(loadUser());
     } catch (err) {
-      const { response } = err as AxiosError;
+      const { response } = err as any;
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
       dispatch(authFail());
-      dispatch(addError(errorMessage));
+      dispatch(setAlert(errorMessage?.message, "danger"));
     }
   };
 
@@ -193,7 +199,12 @@ export const loadProfile = (): AppThunk => async dispatch => {
     );
     dispatch(profileLoaded(res.data));
   } catch (err) {
-    dispatch(addError(err));
+    const { response } = err as any;
+
+    const errorMessage = response?.data || "Something unexpected happend!";
+
+    dispatch(authFail());
+    dispatch(setAlert(errorMessage?.message, "danger"));
   }
 };
 
@@ -210,12 +221,12 @@ export const updateProfileAction =
       dispatch(updateProfile(res.data));
       dispatch(loadProfile());
     } catch (err) {
-      const { response } = err as AxiosError;
+      const { response } = err as any;
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
       dispatch(authFail());
-      dispatch(addError(errorMessage));
+      dispatch(setAlert(errorMessage?.message, "danger"));
     }
   };
 
@@ -232,12 +243,12 @@ export const updatePasswordAction =
       dispatch(updatePassword(res.data));
       dispatch(loadProfile());
     } catch (err) {
-      const { response } = err as AxiosError;
+      const { response } = err as any;
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
       dispatch(authFail());
-      dispatch(addError(errorMessage));
+      dispatch(setAlert(errorMessage?.message, "danger"));
     }
   };
 
@@ -254,13 +265,43 @@ export const deleteUser =
       console.log(res.data);
       dispatch(logout());
     } catch (err) {
-      const { response } = err as AxiosError;
+      const { response } = err as any;
 
       const errorMessage = response?.data || "Something unexpected happend!";
 
       dispatch(authFail());
-      dispatch(addError(errorMessage));
+      dispatch(setAlert(errorMessage?.message, "danger"));
     }
+  };
+
+export const setAlert =
+  (message: string, type: string, timeout = 5000): AppThunk =>
+  async dispatch => {
+    const id = uuidv4();
+    dispatch(addError({ message, type, id }));
+    if (type === "danger") {
+      toast(message, {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: colors.danger,
+          fontWeight: 500,
+          fontSize: "1.2rem",
+          color: "#fff",
+        },
+      });
+    } else if (type === "success")
+      toast.success(message, {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: colors.success,
+          fontWeight: 500,
+          fontSize: "1.2rem",
+          color: "#fff",
+        },
+      });
+    setTimeout(() => dispatch(removeError(id)), timeout);
   };
 
 export default authSlice.reducer;

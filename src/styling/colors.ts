@@ -1,6 +1,6 @@
 export default {
   primary: "rgb(76, 76, 240, 1)",
-  "primary-hover": "rgb(76, 76, 240, 1)",
+  "primary-hover": "rgb(76, 76, 240, 0.3)",
   authBtn: "rgb(8, 105, 166, 1)",
   danger: "#dc5f5f",
   request: "#9340e6",

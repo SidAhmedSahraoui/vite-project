@@ -14,9 +14,7 @@ import Spinner from "../../components/spinner";
 import useStyles from "./style";
 
 const Login: React.FC = () => {
-  const { isAuthenticated, error, loading } = useAppSelector(
-    state => state.auth
-  );
+  const { isAuthenticated, loading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
   const classes = useStyles();
@@ -36,12 +34,6 @@ const Login: React.FC = () => {
       window.location.href = "/";
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (error) {
-      dispatch({ type: "SET_ALERT", payload: error });
-    }
-  }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -180,3 +180,38 @@ export interface Provider {
   email: string;
   username: string;
 }
+
+export interface AdminState {
+  loading: boolean;
+  users: Array<User>;
+  error: Array<Error>;
+  categories: Array<Category>;
+}
+
+export interface AddCategorySchema {
+  title: string;
+  description: string;
+  space: string;
+}
+
+export interface EditCategorySchema {
+  id: number;
+  title: string;
+  description: string;
+  space: string;
+}
+
+export interface AddProviderSchema {
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  password: string;
+  categoryTitle: string;
+}
+
+export interface UpgradeUserSchema {
+  username: string;
+  categoryTitle: string;
+}

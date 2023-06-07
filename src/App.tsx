@@ -25,6 +25,8 @@ import BookingPage from "./pages/booking";
 import Planning from "./pages/provider";
 import ClientAppointments from "./pages/appointments/client";
 import ProviderAppointments from "./pages/appointments/provider";
+import Payment from "./pages/payment";
+import Admin from "./pages/admin";
 
 function App() {
   return (
@@ -49,9 +51,11 @@ function App() {
                 path="/appointments/client"
                 element={<ClientAppointments />}
               />
+              <Route path="/dashboard/*" element={<Admin />} />
               <Route path="/appointments" element={<ProviderAppointments />} />
               <Route path="/booking/:id" element={<BookingPage />} />
               <Route path="/planning" element={<Planning />} />
+              <Route path="/payment/:id" element={<Payment />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>

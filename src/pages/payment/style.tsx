@@ -1,5 +1,5 @@
 import { createUseStyles } from "react-jss";
-import colors from "../../../styling/colors";
+import colors from "../../styling/colors";
 import {
   CARD_SHADOW,
   BUTTON_PRIMARY,
@@ -9,7 +9,7 @@ import {
   POSTITEM_CARD,
   LINK_PRIMARY,
   BUTTON_DANGER,
-} from "../../../styling/styling";
+} from "../../styling/styling";
 
 const useStyles = createUseStyles({
   page: {
@@ -29,9 +29,20 @@ const useStyles = createUseStyles({
     "& .card-shadow": CARD_SHADOW,
     "& .search-form": {
       padding: "20px 20px",
-      "& .input-text": {
-        ...INPUT_TEXT,
-        width: "100%",
+      alignItems: "center",
+      "& .input-group": {
+        alignItems: "center",
+        "& .input-text": {
+          ...INPUT_TEXT,
+          width: "100%",
+          marginBottom: "20px",
+        },
+        "& .input-file": {
+          ...INPUT_TEXT,
+          background: colors["text-gray-300"],
+          width: "100%",
+          marginBottom: "20px",
+        },
       },
     },
 

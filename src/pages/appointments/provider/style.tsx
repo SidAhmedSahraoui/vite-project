@@ -15,8 +15,9 @@ const useStyles = createUseStyles({
     padding: "40px 20px",
     marginBottom: "40px",
     margin: "0 auto",
-    marginTop: "35px",
-    "&.card-shadow": CARD_SHADOW,
+    backgroundColor: colors["text-gray-400"],
+    height: "100vh",
+    "& .card-shadow": { ...CARD_SHADOW, padding: "35px 25px" },
     "& .head": {
       "&> .title": {
         color: colors.primary,

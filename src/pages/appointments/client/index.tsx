@@ -11,7 +11,6 @@ import {
 
 // Utils
 import { WEBSITE_NAME } from "../../../utils/websiteData";
-import { MyAppointment } from "../../../types";
 // Styles
 import useStyles from "./style";
 
@@ -115,7 +114,7 @@ const ClientAppointments: React.FC = () => {
                       <option value="0">All providers</option>
                       {client_appointments !== null &&
                         client_appointments.length > 0 &&
-                        client_appointments.map((app: MyAppointment) => (
+                        client_appointments.map(app => (
                           <option
                             key={app.appointmentId}
                             value={app.appointmentId}
@@ -173,9 +172,9 @@ const ClientAppointments: React.FC = () => {
 
         {client_appointments !== null && !loading ? (
           <div className="content mt-5">
-            <h6 className="text-left">
+            <h4 className="text-left">
               Categories ({client_appointments.length})
-            </h6>
+            </h4>
             <div className="posts mt-3">
               {client_appointments.length < 1 ? (
                 <div className="no-requests mt-5">

@@ -15,9 +15,7 @@ import useStyles from "./style";
 import { setAlert } from "../../redux/error/error-slice";
 
 const Register: React.FC = () => {
-  const { isAuthenticated, error, loading } = useAppSelector(
-    state => state.auth
-  );
+  const { isAuthenticated, loading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
   const classes = useStyles();
@@ -43,12 +41,6 @@ const Register: React.FC = () => {
       window.location.href = "/";
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (error) {
-      dispatch(setAlert(error, "danger"));
-    }
-  }, [error]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -96,7 +96,7 @@ export const INPUT_TEXT = {
   fontWeight: 500,
   borderRadius: "10px",
   padding: "8px 20px",
-  border: `2px solid ${colors["text-gray-200"]}`,
+  border: `2px solid ${colors["text-gray-600"]}`,
   "&:focus": {
     borderColor: colors["text-gray-400"],
   },
