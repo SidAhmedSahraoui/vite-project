@@ -7,14 +7,14 @@ const useStyles = createUseStyles({
     padding: "0px",
     backgroundColor: colors["text-gray-300"],
     borderTop: `1px solid ${colors["text-gray-600"]}`,
-
     height: "100vh",
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    flexWrap: "nowrap",
     "& .content": {
-      width: "fit-content",
+      width: "80%",
       height: "100vh",
       padding: "20px",
       display: "flex",

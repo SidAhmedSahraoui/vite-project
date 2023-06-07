@@ -111,7 +111,7 @@ export const addProvider =
         `${Api}/auth-service/admin/create-provider`,
         formData
       );
-      dispatch(setUsers(res.data));
+      dispatch(setAlert(res.data.message, "success"));
     } catch (err) {
       const { response } = err as any;
 
@@ -164,10 +164,10 @@ export const addCategory =
     dispatch(setLoading());
     try {
       const res: AxiosResponse = await axios.post(
-        `${Api}/auth-service/admin/create-category`,
+        `${Api}/auth-service/admin/add-category`,
         formData
       );
-      dispatch(setCategories(res.data));
+      dispatch(setAlert(res.data.message, "success"));
     } catch (err) {
       const { response } = err as any;
 

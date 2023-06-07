@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useStyles from "./style";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import PostItem from "../../interviews/postItem";
+import { getCategories } from "../../../redux/admin/admin-slice";
 const Categories: React.FC = () => {
   const classes = useStyles();
+  const { categories, loading } = useAppSelector(state => state.admin);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
 
   return (
     <>
       <div className={classes.page}>
-        <h3>Categories</h3>
+        <div className="content">
+          <h3>Categories</h3>
+          <div className="categories">
+            {!loading && categories.length > 0 ? (
+              categories.map(category => (
+                <PostItem
+                  key={category.categoryId}
+                  post={category}
+                  type="simple"
+                />
+              ))
+            ) : (
+              <h4>No categories found</h4>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );

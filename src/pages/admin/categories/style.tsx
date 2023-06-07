@@ -1,6 +1,6 @@
 import { createUseStyles } from "react-jss";
 
-import colors from "../../../styling/colors";
+import { CARD_SHADOW } from "../../../styling/styling";
 
 const useStyles = createUseStyles({
   page: {
@@ -8,11 +8,18 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center",
     height: "100vh",
+    width: "100%",
     "& .content": {
-      width: "fit-content",
+      ...CARD_SHADOW,
+      width: "80%",
+      margin: "auto",
       height: "100vh",
       padding: "20px",
       display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      flexWrap: "nowrap",
+      overflowY: "scroll",
     },
   },
 });
