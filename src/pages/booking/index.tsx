@@ -39,7 +39,7 @@ const Booking: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getPlanning(parseInt(id || "-1")));
+    dispatch(getPlanning(id || ""));
     //eslint-disable-next-line
   }, [id]);
 
@@ -55,14 +55,14 @@ const Booking: React.FC = () => {
     const day: number = (selected || new Date()).getDay() + 1 || 0;
     const token: string = localStorage.getItem("token") || "";
     const clientEmail: string = user?.email || "";
-    const providerId: number = parseInt(id || "-1");
+    const providerUsername = id || "";
     const appointment: Appointment = {
       date,
       slot,
       day,
       token,
       clientEmail,
-      providerId,
+      providerUsername,
     };
 
     if (

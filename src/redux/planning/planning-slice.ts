@@ -118,12 +118,12 @@ export const getSlots = (): AppThunk => async dispatch => {
 };
 
 export const getPlanning =
-  (id: number): AppThunk =>
+  (username: string): AppThunk =>
   async dispatch => {
     try {
       dispatch(setLoading());
       const res: AxiosResponse = await axios.get(
-        `${Api}/interview-service/interviews/${id}`
+        `${Api}/interview-service/interviews/${username}`
       );
       const planning: Planning = res.data;
       planning.slots = planning?.slots?.sort(

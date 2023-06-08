@@ -21,11 +21,13 @@ const Categories: React.FC = () => {
           <div className="categories">
             {!loading && categories.length > 0 ? (
               categories.map(category => (
-                <PostItem
-                  key={category.categoryId}
-                  post={category}
-                  type="simple"
-                />
+                <div className="category">
+                  <PostItem
+                    key={category.categoryId}
+                    post={category}
+                    type="category"
+                  />
+                </div>
               ))
             ) : (
               <h4>No categories found</h4>

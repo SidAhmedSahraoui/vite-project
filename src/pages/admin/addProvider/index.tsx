@@ -13,7 +13,7 @@ const AddProvider: React.FC = () => {
     phone: "",
     firstname: "",
     lastname: "",
-    categoryTitle: "",
+    categoryTitle: "Entretien Campus France",
   });
 
   const {

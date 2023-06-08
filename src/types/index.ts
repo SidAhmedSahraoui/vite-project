@@ -152,7 +152,7 @@ export interface AddPlanningSchema {
 export interface Appointment {
   token: string;
   clientEmail: string;
-  providerId: number;
+  providerUsername: string;
   date: Date | string | null;
   day: number;
   slot: number;
@@ -181,9 +181,17 @@ export interface Provider {
   username: string;
 }
 
+export interface ProviderCategory {
+  providerId: number;
+  user: User;
+  category: Category;
+}
+
 export interface AdminState {
   loading: boolean;
   users: Array<User>;
+  providers: Array<ProviderCategory>;
+  admins: Array<User>;
   error: Array<Error>;
   categories: Array<Category>;
 }

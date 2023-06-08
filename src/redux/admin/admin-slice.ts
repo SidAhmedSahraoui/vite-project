@@ -18,6 +18,8 @@ const initialState: AdminState = {
   loading: false,
   error: [],
   users: [],
+  providers: [],
+  admins: [],
   categories: [],
 };
 
@@ -35,6 +37,16 @@ export const adminSlice = createSlice({
     },
     setCategories: (state, action) => {
       state.categories = action.payload;
+      state.loading = false;
+      state.error = [];
+    },
+    setAdmins: (state, action) => {
+      state.admins = action.payload;
+      state.loading = false;
+      state.error = [];
+    },
+    setProviders: (state, action) => {
+      state.providers = action.payload;
       state.loading = false;
       state.error = [];
     },
@@ -56,6 +68,8 @@ export const adminSlice = createSlice({
       state.loading = false;
       state.error = [];
       state.users = [];
+      state.providers = [];
+      state.admins = [];
     },
   },
 });
@@ -64,6 +78,8 @@ export const {
   setLoading,
   setUsers,
   setCategories,
+  setAdmins,
+  setProviders,
   addError,
   removeError,
   clearErrors,
@@ -82,6 +98,34 @@ export const getUsers = (): AppThunk => async dispatch => {
 
     const errorMessage = response?.data || "Something unexpected happend!";
 
+    dispatch(setAlert(errorMessage?.message, "danger"));
+  }
+};
+
+export const getProviders = (): AppThunk => async dispatch => {
+  dispatch(setLoading());
+  try {
+    const res: AxiosResponse = await axios.get(
+      `${Api}/auth-service/admin/providers`
+    );
+    dispatch(setProviders(res.data));
+  } catch (err) {
+    const { response } = err as any;
+    const errorMessage = response?.data || "Something unexpected happend!";
+    dispatch(setAlert(errorMessage?.message, "danger"));
+  }
+};
+
+export const getAdmins = (): AppThunk => async dispatch => {
+  dispatch(setLoading());
+  try {
+    const res: AxiosResponse = await axios.get(
+      `${Api}/auth-service/admin/admins`
+    );
+    dispatch(setAdmins(res.data));
+  } catch (err) {
+    const { response } = err as any;
+    const errorMessage = response?.data || "Something unexpected happend!";
     dispatch(setAlert(errorMessage?.message, "danger"));
   }
 };
@@ -122,14 +166,15 @@ export const addProvider =
   };
 
 export const deleteProvider =
-  (id: number): AppThunk =>
+  (username: string): AppThunk =>
   async dispatch => {
     dispatch(setLoading());
     try {
       const res: AxiosResponse = await axios.delete(
-        `${Api}/auth-service/admin/delete-provider/${id}`
+        `${Api}/auth-service/admin/delete-provider/${username}`
       );
       dispatch(setUsers(res.data));
+      dispatch(getProviders());
     } catch (err) {
       const { response } = err as any;
 
@@ -145,10 +190,11 @@ export const updateProvider =
     dispatch(setLoading());
     try {
       const res: AxiosResponse = await axios.patch(
-        `${Api}/auth-service/admin/update-provider`,
+        `${Api}/auth-service/admin/upgrade-provider`,
         formData
       );
       dispatch(setUsers(res.data));
+      dispatch(getUsers());
     } catch (err) {
       const { response } = err as any;
 
