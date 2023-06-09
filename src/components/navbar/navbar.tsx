@@ -6,8 +6,11 @@ const useStyles = createUseStyles({
   navbar: {
     paddingTop: "20px",
     paddingBottom: "20px",
-    paddingLeft: "40px",
-    paddingRight: "40px",
+    paddingLeft: "140px",
+    paddingRight: "140px",
+    "& .nav-link": {
+      marginRight: "70px",
+    },
     "@media screen and (min-width: 992px)": {
       "& .button-primary": BUTTON_PRIMARY,
       "& .link-primary": LINK_PRIMARY,

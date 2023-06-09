@@ -28,6 +28,7 @@ import ProviderAppointments from "./pages/appointments/provider";
 import Payment from "./pages/payment";
 import Admin from "./pages/admin";
 import { PrivateRoute } from "./routes/privateRoute";
+import Services from "./pages/services";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
                 path="/profile"
                 element={<PrivateRoute component={Profile} />}
               />
+              <Route path="/services" element={<Services />} />
               <Route path="/interviews" element={<Interviews />} />
               <Route path="/interviews/:id" element={<InterviewShow />} />
               <Route

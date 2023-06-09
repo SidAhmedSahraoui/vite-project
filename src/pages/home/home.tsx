@@ -8,10 +8,16 @@ const useStyles = createUseStyles({
     marginBottom: "40px",
     "& header": {
       backgroundColor: "rgb(202, 246, 249, 0.33)",
-      margin: "0px",
       padding: "0px 40px",
-      width: "100%",
-      height: "520px",
+      height: "440px",
+      "& .header-container": {
+        width: "80%",
+        margin: "0px auto",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: "100%",
+      },
     },
     "& h1.title": {
       color: colors["text-gray-800"],
@@ -21,6 +27,9 @@ const useStyles = createUseStyles({
       width: "100%",
       margin: "0px",
       maxWidth: "500px",
+    },
+    "& .button-primary": {
+      ...BUTTON_PRIMARY,
     },
 
     "@media screen and (max-width: 576px)": {
@@ -49,6 +58,20 @@ const useStyles = createUseStyles({
       "& .bold": {
         fontWeight: "700",
       },
+    },
+    "& .about-us": {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      "& .button-primary": {
+        ...BUTTON_PRIMARY,
+      },
+    },
+    "& .home-img": {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: "40px",
     },
 
     "& .features": {
@@ -86,22 +109,17 @@ const useStyles = createUseStyles({
         justifyContent: "space-evenly",
         flexWrap: "wrap",
         alignItems: "center",
-        "@media screen and (max-width: 992px)": {
-          "& .card": {
-            width: "45%",
-            position: "static",
-            bottom: "0px",
-            zIndex: "0",
-          },
-        },
+        position: "static",
+        bottom: "0px",
+        zIndex: "0",
         "& .card": {
-          width: "30%",
-          height: "260px",
+          width: "300px",
+          height: "240px",
           padding: "0px",
           borderRadius: "10px",
           boxShadow: "0px 4px 8px rgb(172, 172, 172,0.6)",
           position: "relative",
-          bottom: "120px",
+          bottom: "40px",
           zIndex: "40",
           "& .logo-card": {
             width: "full",
@@ -135,6 +153,7 @@ const useStyles = createUseStyles({
             ...BUTTON_PRIMARY,
             width: "fit-content",
             margin: "auto",
+            marginBottom: "20px",
           },
         },
         "& h3.title": {

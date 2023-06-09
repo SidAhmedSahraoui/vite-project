@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGripLines,
+  faBars,
   faSignOutAlt,
   faEnvelope,
   faUser,
@@ -105,12 +105,7 @@ const Navbar: React.FC = () => {
     <>
       <li className="nav-item">
         <Link className="nav-link link-primary my-sm-0 mr-2" to="/login">
-          Sign in
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link button-primary my-sm-0" to="/register">
-          Register
+          Se connecter
         </Link>
       </li>
     </>
@@ -132,7 +127,7 @@ const Navbar: React.FC = () => {
     >
       <div className="container">
         <Link className="navbar-brand" to="/">
-          <img className="logo" src={Logo} alt="Dirlkhir" />
+          <img className="logo" src={Logo} alt="Pmentors" />
         </Link>
         <button
           className="navbar-toggler"
@@ -145,33 +140,36 @@ const Navbar: React.FC = () => {
           onClick={handleToggle}
         >
           <FontAwesomeIcon
-            /*style={
+            style={
               toggleStatus !== "closed" && {
                 transformOrigin: "center",
                 transform: "rotate(90deg)",
               }
-            }*/
-            icon={faGripLines}
+            }
+            icon={faBars}
           />
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
+        <div
+          className="collapse navbar-collapse d-flex justify-content-end"
+          id="navbarSupportedContent"
+        >
+          <ul className="navbar-nav">
             {!isAuthenticated ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/interviews">
-                    Interviews
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/services">
+                  <Link className="nav-link link-primary" to="/services">
                     Services
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/about">
+                  <Link className="nav-link link-primary " to="/about">
                     A propos
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link link-primary" to="/help">
+                    {`Centre d’aide`}
                   </Link>
                 </li>
               </>
@@ -179,7 +177,7 @@ const Navbar: React.FC = () => {
               user.roles.some((role: Role) => role.roleName === "ADMIN") ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard">
+                  <Link className="nav-link link-primary" to="/dashboard">
                     Dashboard
                   </Link>
                 </li>
@@ -188,12 +186,12 @@ const Navbar: React.FC = () => {
               user.roles.some((role: Role) => role.roleName === "PROVIDER") ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/planning">
+                  <Link className="nav-link link-primary " to="/planning">
                     Planning
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/appointments">
+                  <Link className="nav-link link-primary" to="/appointments">
                     My Appointments
                   </Link>
                 </li>
@@ -201,17 +199,20 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/interviews">
+                  <Link className="nav-link link-primary " to="/interviews">
                     Interviews
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/appointments/client">
+                  <Link
+                    className="nav-link link-primary "
+                    to="/appointments/client"
+                  >
                     My Appointments
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/about">
+                  <Link className="nav-link link-primary " to="/about">
                     A propos
                   </Link>
                 </li>
