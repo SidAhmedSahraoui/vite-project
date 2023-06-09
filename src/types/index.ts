@@ -165,6 +165,7 @@ export interface MyAppointment {
   appointmentDate: string;
   startsAt: string;
   endsAt: string;
+  isPayed: boolean;
   client: Client;
   provider: Provider;
 }

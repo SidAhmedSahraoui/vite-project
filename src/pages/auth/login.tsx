@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Helmet from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -16,6 +17,7 @@ import useStyles from "./style";
 const Login: React.FC = () => {
   const { isAuthenticated, loading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const classes = useStyles();
 
@@ -31,7 +33,8 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      window.location.href = "/";
+      navigate("/");
+      //window.location.href = "/";
     }
   }, [isAuthenticated]);
 
@@ -50,52 +53,54 @@ const Login: React.FC = () => {
       <Helmet>
         <title>{`${WEBSITE_NAME} | Login`}</title>
       </Helmet>
-      <div className={`${classes.root} card-shadow text-center`}>
-        <h3 className="title">Login</h3>
-        <h6 className="subtitle">{`Utilisez votre email, username ou bien le numéro de téléphone pour s'authentifier.`}</h6>
+      <div className={`${classes.root} text-center`}>
+        <div className=" card-shadow ">
+          <h3 className="title">Login</h3>
+          <h6 className="subtitle">{`Utilisez votre email, username ou bien le numéro de téléphone pour s'authentifier.`}</h6>
 
-        <form className="mt-4" onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="text"
-              name="credential"
-              value={credential}
-              placeholder="Username, Email or Phone"
-              onChange={onChange}
-              required
-            />
-          </div>
+          <form className="mt-4" onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="text"
+                name="credential"
+                value={credential}
+                placeholder="Username, Email or Phone"
+                onChange={onChange}
+                required
+              />
+            </div>
 
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Password"
-              onChange={onChange}
-              required
-            />
-          </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Password"
+                onChange={onChange}
+                required
+              />
+            </div>
 
-          {loading ? (
-            <Spinner />
-          ) : (
-            <input
-              type="submit"
-              value="Login"
-              className="button-primary mt-3"
-            />
-          )}
-        </form>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <input
+                type="submit"
+                value="Login"
+                className="button-primary mt-3"
+              />
+            )}
+          </form>
 
-        <p className="form-link mt-3">
-          {`Je n'ai pas de compte?`}{" "}
-          <Link to="/register">
-            <span>Créer un compte</span>
-          </Link>
-        </p>
+          <p className="form-link mt-3">
+            {`Je n'ai pas de compte?`}{" "}
+            <Link to="/register">
+              <span>Créer un compte</span>
+            </Link>
+          </p>
+        </div>
       </div>
     </>
   );

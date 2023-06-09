@@ -15,8 +15,17 @@ const useStyles = createUseStyles({
     padding: "40px 20px",
     marginBottom: "40px",
     margin: "0 auto",
-    backgroundColor: colors["text-gray-400"],
     height: "100vh",
+    "& .btns": {
+      marginTop: "12px",
+      display: "flex",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      flexWrap: "nowrap",
+    },
+    "& .card-body": {
+      textAlign: "left",
+    },
     "& .card-shadow": { ...CARD_SHADOW, padding: "35px 25px" },
     "& .head": {
       "&> .title": {

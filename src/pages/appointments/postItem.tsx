@@ -37,14 +37,18 @@ const PostItem: React.FC = (props: any) => {
             <div className="line-top">
               <h5 className="title">
                 {post?.provider?.username}
-                {true && (
+                {post.isPayed ? (
+                  <span className="ml-5 badge badge-success">Payed</span>
+                ) : (
                   <span className="ml-5 badge badge-danger">Not payed</span>
                 )}
               </h5>
-              <Link to={`/payment/${post.appointmentId}`}>
-                Pay fees
-                <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-              </Link>
+              {!post.isPayed && (
+                <Link to={`/payment/${post.appointmentId}`}>
+                  Pay fees
+                  <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                </Link>
+              )}
             </div>
             <p className="description">
               <strong>Provider email: </strong> {post?.providerEmail}

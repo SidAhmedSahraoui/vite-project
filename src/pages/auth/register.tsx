@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Helmet from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -18,6 +19,7 @@ const Register: React.FC = () => {
   const { isAuthenticated, loading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
   const classes = useStyles();
 
   const [user, setUser] = useState({
@@ -38,7 +40,8 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      window.location.href = "/";
+      navigate("/");
+      //window.location.href = "/";
     }
   }, [isAuthenticated]);
 
@@ -64,110 +67,112 @@ const Register: React.FC = () => {
       <Helmet>
         <title>{`${WEBSITE_NAME} | Register`}</title>
       </Helmet>
-      <div className={`${classes.root} card-shadow text-center`}>
-        <h3 className="title">Creer un compte</h3>
-        <h6 className="subtitle">{`Veuillez remplir ces informations correctement.`}</h6>
+      <div className={`${classes.root}  text-center`}>
+        <div className="card-shadow">
+          <h3 className="title">Creer un compte</h3>
+          <h6 className="subtitle">{`Veuillez remplir ces informations correctement.`}</h6>
 
-        <form className="mt-4" onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="text"
-              name="username"
-              value={username}
-              placeholder="Username"
-              onChange={onChange}
-              // required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="text"
-              name="firstname"
-              value={firstname}
-              placeholder="First Name"
-              onChange={onChange}
-              // required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="text"
-              name="lastname"
-              value={lastname}
-              placeholder="Last Name"
-              onChange={onChange}
-              // required
-            />
-          </div>
+          <form className="mt-4" onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="text"
+                name="username"
+                value={username}
+                placeholder="Username"
+                onChange={onChange}
+                // required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="text"
+                name="firstname"
+                value={firstname}
+                placeholder="First Name"
+                onChange={onChange}
+                // required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="text"
+                name="lastname"
+                value={lastname}
+                placeholder="Last Name"
+                onChange={onChange}
+                // required
+              />
+            </div>
 
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Email"
-              onChange={onChange}
-              // required
-            />
-          </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="email"
+                name="email"
+                value={email}
+                placeholder="Email"
+                onChange={onChange}
+                // required
+              />
+            </div>
 
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="text"
-              name="phone"
-              value={phone}
-              placeholder="Phone"
-              onChange={onChange}
-              // required
-            />
-          </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="text"
+                name="phone"
+                value={phone}
+                placeholder="Phone"
+                onChange={onChange}
+                // required
+              />
+            </div>
 
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Password"
-              onChange={onChange}
-              // required
-            />
-          </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Password"
+                onChange={onChange}
+                // required
+              />
+            </div>
 
-          <div className="form-group">
-            <input
-              className="input-text"
-              type="password"
-              name="password2"
-              value={password2}
-              placeholder="Password confirmation"
-              onChange={onChange}
-              // required
-            />
-          </div>
+            <div className="form-group">
+              <input
+                className="input-text"
+                type="password"
+                name="password2"
+                value={password2}
+                placeholder="Password confirmation"
+                onChange={onChange}
+                // required
+              />
+            </div>
 
-          {loading ? (
-            <Spinner />
-          ) : (
-            <input
-              type="submit"
-              value="Create Account"
-              className="button-primary mt-3"
-            />
-          )}
-        </form>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <input
+                type="submit"
+                value="Create Account"
+                className="button-primary mt-3"
+              />
+            )}
+          </form>
 
-        <p className="form-link mt-3">
-          {`J'ai déjà un compte`}{" "}
-          <Link to="/login">
-            <span>Log in</span>
-          </Link>
-        </p>
+          <p className="form-link mt-3">
+            {`J'ai déjà un compte`}{" "}
+            <Link to="/login">
+              <span>Log in</span>
+            </Link>
+          </p>
+        </div>
       </div>
     </>
   );

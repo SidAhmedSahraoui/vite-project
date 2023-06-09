@@ -27,6 +27,7 @@ import ClientAppointments from "./pages/appointments/client";
 import ProviderAppointments from "./pages/appointments/provider";
 import Payment from "./pages/payment";
 import Admin from "./pages/admin";
+import { PrivateRoute } from "./routes/privateRoute";
 
 function App() {
   return (
@@ -40,22 +41,40 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/profile"
+                element={<PrivateRoute component={Profile} />}
+              />
               <Route path="/interviews" element={<Interviews />} />
               <Route path="/interviews/:id" element={<InterviewShow />} />
               <Route
                 path="/interviews/:id/providers"
-                element={<CategoryProviders />}
+                element={<PrivateRoute component={CategoryProviders} />}
               />
               <Route
                 path="/appointments/client"
-                element={<ClientAppointments />}
+                element={<PrivateRoute component={ClientAppointments} />}
               />
-              <Route path="/dashboard/*" element={<Admin />} />
-              <Route path="/appointments" element={<ProviderAppointments />} />
-              <Route path="/booking/:id" element={<BookingPage />} />
-              <Route path="/planning" element={<Planning />} />
-              <Route path="/payment/:id" element={<Payment />} />
+              <Route
+                path="/dashboard/*"
+                element={<PrivateRoute component={Admin} />}
+              />
+              <Route
+                path="/appointments"
+                element={<PrivateRoute component={ProviderAppointments} />}
+              />
+              <Route
+                path="/booking/:id"
+                element={<PrivateRoute component={BookingPage} />}
+              />
+              <Route
+                path="/planning"
+                element={<PrivateRoute component={Planning} />}
+              />
+              <Route
+                path="/payment/:id"
+                element={<PrivateRoute component={Payment} />}
+              />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>

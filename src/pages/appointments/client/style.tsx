@@ -14,7 +14,6 @@ import {
 const useStyles = createUseStyles({
   page: {
     padding: "40px 20px",
-    backgroundColor: colors["text-gray-400"],
     height: "100vh",
 
     "&.card-shadow": CARD_SHADOW,

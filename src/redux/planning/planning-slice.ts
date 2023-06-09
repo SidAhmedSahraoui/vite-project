@@ -218,6 +218,59 @@ export const cancelAppointment =
     }
   };
 
+export const payment =
+  (FormData: any): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const res: AxiosResponse = await axios.post(
+        `${Api}/interview-service/interviews/payment`,
+        FormData,
+        config
+      );
+      dispatch(setAlert(res.data?.message, "success"));
+    } catch (err) {
+      console.log(err);
+      dispatch(setAlert("Error canceling appointment", "danger"));
+    }
+  };
+
+export const downloadImage =
+  (apointmentId: number): AppThunk =>
+  async dispatch => {
+    try {
+      const response: AxiosResponse = await axios({
+        url: `${Api}/interview-service/interviews/download/${apointmentId}`,
+        method: "GET",
+        responseType: "blob", // Set the response type to 'blob' for downloading files
+      });
+
+      // Create a temporary URL for the blob response
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Create a link element and simulate a click to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "image.jpg");
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up the temporary URL and link element
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+
+      dispatch(setAlert("Image downloaded successfully", "success"));
+    } catch (error) {
+      console.error(error);
+      dispatch(setAlert("Error downloading image", "danger"));
+    }
+  };
+
 export const setAlert =
   (message: string, type: string, timeout = 5000): AppThunk =>
   async dispatch => {
