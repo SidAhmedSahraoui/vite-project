@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
         height: "22px",
       },
       "&:hover, &:focus, &:active": {
-        backgroundColor: colors["primary-hover"],
+        backgroundColor: "rgb(76, 76, 240, 0.3)",
         borderRadius: "10px",
       },
     },

@@ -201,6 +201,7 @@ export interface AdminState {
 
 export interface AddCategorySchema {
   title: string;
+  type: string;
   description: string;
   space: number;
 }

@@ -8,6 +8,7 @@ const AddCategories: React.FC = () => {
   const classes = useStyles();
   const [category, setCategory] = React.useState<AddCategorySchema>({
     title: "",
+    type: "",
     description: "",
     space: 0,
   });
@@ -59,6 +60,13 @@ const AddCategories: React.FC = () => {
                 onChange={handleChangeTextArea}
                 placeholder="Description"
               />
+            </div>
+            <div className="form-group">
+              <label htmlFor="space">Type</label>
+              <select onChange={handleChangeSelect} id="space" name="space">
+                <option value={"study"}>Study</option>
+                <option value={"hiring"}>Hiring</option>
+              </select>
             </div>
             <div className="form-group">
               <label htmlFor="space">Space</label>
