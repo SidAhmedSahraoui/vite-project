@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialState: CategoriesState = {
   categories: [],
+  hiring_categories: [],
+  study_categories: [],
   loading_categories: false,
   loading: false,
   category: null,
@@ -23,6 +25,8 @@ export const categoriesSlice = createSlice({
   reducers: {
     resetState: state => {
       state.categories = [];
+      state.hiring_categories = [];
+      state.study_categories = [];
       state.loading_categories = false;
       state.loading = false;
       state.category = null;
@@ -44,6 +48,13 @@ export const categoriesSlice = createSlice({
     },
     LoadedCategories: (state, action) => {
       state.categories = action.payload;
+      state.hiring_categories = action.payload.filter(
+        (category: any) => category.type === "hiring"
+      );
+      state.study_categories = action.payload.filter(
+        (category: any) => category.type === "study"
+      );
+
       state.loading_categories = false;
     },
     setLoadingProviders: state => {

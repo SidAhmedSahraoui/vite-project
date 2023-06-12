@@ -18,15 +18,22 @@ import PostItem from "./postItem";
 // Styles
 import useStyles from "./style";
 import Sidbar from "../../components/sidbar";
+import { useParams } from "react-router-dom";
 
 const Interviews: React.FC = () => {
   const classes = useStyles();
 
-  const { categories, loading, loading_categories } = useAppSelector(
-    state => state.categories
-  );
+  const {
+    categories,
+    hiring_categories,
+    study_categories,
+    loading,
+    loading_categories,
+  } = useAppSelector(state => state.categories);
 
   const dispatch = useAppDispatch();
+
+  const { id } = useParams();
 
   const [post_search, setSearch] = useState({
     keywords: "",
@@ -176,11 +183,27 @@ const Interviews: React.FC = () => {
                     <div className="no-requests mt-5">
                       <h5>No requests found!</h5>
                     </div>
-                  ) : (
-                    categories.map(post => (
+                  ) : id === "hiring" ? (
+                    hiring_categories.map(category => (
                       <PostItem
-                        key={post.categoryId}
-                        post={post}
+                        key={category.categoryId}
+                        post={category}
+                        type={"simple"}
+                      />
+                    ))
+                  ) : id === "study" ? (
+                    study_categories.map(category => (
+                      <PostItem
+                        key={category.categoryId}
+                        post={category}
+                        type={"simple"}
+                      />
+                    ))
+                  ) : (
+                    categories.map(category => (
+                      <PostItem
+                        key={category.categoryId}
+                        post={category}
                         type={"simple"}
                       />
                     ))

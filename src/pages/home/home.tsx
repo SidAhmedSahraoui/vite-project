@@ -6,6 +6,7 @@ const useStyles = createUseStyles({
   page: {
     padding: "0px",
     marginBottom: "40px",
+    backgroundColor: colors["text-white"],
     "& header": {
       backgroundColor: "rgb(202, 246, 249, 0.33)",
       padding: "0px 40px",
@@ -112,14 +113,16 @@ const useStyles = createUseStyles({
         position: "static",
         bottom: "0px",
         zIndex: "0",
+        width: "80%",
+        margin: "auto",
         "& .card": {
-          width: "300px",
+          width: "350px",
           height: "240px",
           padding: "0px",
           borderRadius: "10px",
           boxShadow: "0px 4px 8px rgb(172, 172, 172,0.6)",
           position: "relative",
-          bottom: "40px",
+          bottom: "45px",
           zIndex: "40",
           "& .logo-card": {
             width: "full",
@@ -148,6 +151,9 @@ const useStyles = createUseStyles({
             color: colors["text-gray-800"],
             lineHeight: "15px",
             textAlign: "center",
+            width: "90%",
+            margin: "auto",
+            marginBottom: "12px",
           },
           "& .link-card": {
             ...BUTTON_PRIMARY,

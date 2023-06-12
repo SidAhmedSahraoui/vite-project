@@ -8,8 +8,11 @@ import Home1 from "../../assets/images/Home.svg";
 import useStyles from "./home";
 import { Card } from "react-bootstrap";
 import home from "../../assets/images/home.svg";
+import { useAppSelector } from "../../redux/hooks";
 const Home = () => {
   const classes = useStyles();
+
+  const { isAuthenticated } = useAppSelector(state => state.auth);
 
   return (
     <>
@@ -31,28 +34,30 @@ const Home = () => {
               <TextLoop
                 springConfig={{ stiffness: 180, damping: 16 }}
                 mask={true}
-                className="text-left mt-2"
+                className="text-left"
                 interval={2500}
               >
-                <p className="paragraph mx-auto mx-lg-0 mt-3">
+                <p className="paragraph">
                   “Notre plateforme vous aide à <span>reussir</span> <br />{" "}
                   votre carriere !"
                 </p>
-                <p className="paragraph mx-auto mx-lg-0 mt-3">
+                <p className="paragraph">
                   "Entrepreneuriat, <span>obtenir un job</span>, <br />{" "}
                   procedure d'etude a l'etranger"
                 </p>
-                <p className="paragraph mx-auto mx-lg-0 mt-3">
+                <p className="paragraph">
                   "Bénéficiez des conseils, des informations et des <br />
                   <span>expériences d'entrepreneurs</span>, d'étudiants ..."
                 </p>
               </TextLoop>
               <br />
-              <Link to="/register" className="button-primary">
-                <span>{`Inscrit vous `}</span>
-              </Link>
+              {!isAuthenticated && (
+                <Link to="/register" className="button-primary">
+                  <span>{`Inscrit vous `}</span>
+                </Link>
+              )}
             </div>
-            <div className="col-12 col-lg-6 mt-lg-5 mt-5 mt-lg-0 text-center">
+            <div className="col-12 col-lg-6 text-center">
               <img
                 className="img img-fluid"
                 height="450px !important"
@@ -73,7 +78,7 @@ const Home = () => {
             <p className="text-card">
               Preparez-vous aux entretiens Avec des professionnels expérimentés
             </p>
-            <Link to="/" className="link-card">
+            <Link to="/interviews" className="link-card">
               <span>Prendre RDV</span>
             </Link>
           </Card>
@@ -87,7 +92,7 @@ const Home = () => {
               <br />
               {"procedure d'etude a l'etranger"}
             </p>
-            <Link to="/" className="link-card">
+            <Link to="/interviews" className="link-card">
               <span>Prendre RDV</span>
             </Link>
           </Card>
@@ -100,7 +105,7 @@ const Home = () => {
               {"Bénéficiez des conseils, des informations et\n" +
                 "des expériences d'entrepreneurs, d'étudiants"}
             </p>
-            <Link to="/" className="link-card">
+            <Link to="/interviews" className="link-card">
               <span>Prendre RDV</span>
             </Link>
           </Card>

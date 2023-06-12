@@ -172,6 +172,50 @@ const useStyles = createUseStyles({
       },
     },
   },
+  pageCategories: {
+    "& .categories": {
+      ...CARD_SHADOW,
+      margin: "20px auto",
+      height: "80vh",
+      width: "80%",
+      borderRadius: "5px",
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      "& .group-link": {
+        width: "100%",
+        height: "25%",
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        flexDirection: "column",
+        "& .link": {
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          "& .button-primary": {
+            borderRadius: "20px",
+            fontWeight: "400",
+            fontSize: "18px",
+            lineHeight: "22px",
+            border: "none",
+            padding: "15px",
+            width: "50%",
+            margin: "auto",
+            backgroundColor: colors["text-gray-400"],
+            color: colors.primary,
+          },
+        },
+      },
+      "& .category": {
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      },
+    },
+  },
 });
 
 export default useStyles;

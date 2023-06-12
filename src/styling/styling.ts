@@ -89,7 +89,7 @@ export const LINK_PRIMARY = {
 export const CARD_SHADOW = {
   borderRadius: "15px",
   backgroundColor: colors["text-white"],
-  "box-shadow": "0px 4px 24px rgb(0, 0, 0, 0.25)",
+  "box-shadow": "5px 8px 12px rgb(0, 0, 0, 0.5)",
 };
 
 export const INPUT_TEXT = {

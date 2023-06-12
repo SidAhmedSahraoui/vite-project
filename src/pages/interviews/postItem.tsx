@@ -8,6 +8,8 @@ import NoImage from "../../assets/images/no-image.svg";
 import Euro from "../../assets/images/Euro.png";
 import Frontend from "../../assets/images/frontend.png";
 import Backend from "../../assets/images/backend.png";
+import Canada from "../../assets/images/canada.jpg";
+import Turkey from "../../assets/images/turkey.jpg";
 
 interface PostItemProps {
   post: any;
@@ -29,7 +31,7 @@ const PostItem: React.FC<PostItemProps> = (props: PostItemProps) => {
                 : space === "CONSULTATION"
                 ? "consultations"
                 : "shares"
-            }/${categoryId}`}
+            }/show/${categoryId}`}
           >
             <img
               className="img img-fluid img-rounded-corners"
@@ -40,6 +42,10 @@ const PostItem: React.FC<PostItemProps> = (props: PostItemProps) => {
                   ? Frontend
                   : categoryId === 3
                   ? Backend
+                  : categoryId === 4
+                  ? Canada
+                  : categoryId === 5
+                  ? Turkey
                   : NoImage
               }
               alt="post"
@@ -55,7 +61,7 @@ const PostItem: React.FC<PostItemProps> = (props: PostItemProps) => {
                   : space === "CONSULTATION"
                   ? "consultations"
                   : "shares"
-              }/${categoryId}`}
+              }/show/${categoryId}`}
             >
               <h5 className="title">
                 {title}{" "}

@@ -19,6 +19,8 @@ export interface AuthState {
 // CategoriesState
 export interface CategoriesState {
   categories: Array<Category>;
+  hiring_categories: Array<Category>;
+  study_categories: Array<Category>;
   loading_categories: boolean;
   loading: boolean;
   category: Category | null;

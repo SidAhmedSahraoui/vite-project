@@ -30,6 +30,8 @@ import DialogPhone from "../../components/dialogs/dialogPhone";
 import Euro from "../../assets/images/Euro.png";
 import Frontend from "../../assets/images/frontend.png";
 import Backend from "../../assets/images/backend.png";
+import Canada from "../../assets/images/canada.jpg";
+import Turkey from "../../assets/images/turkey.jpg";
 
 // Styles
 import useStyles from "./style";
@@ -129,9 +131,7 @@ const InterviewShow: React.FC = () => {
 
                     <div className="pictures mt-4">
                       <div className="row justify-content-center align-items-center">
-                        {categoryId === 1 ||
-                        categoryId === 2 ||
-                        categoryId === 3 ? (
+                        {categoryId in [1, 2, 3, 4, 5] ? (
                           <div className="col-12 col-sm-6 col-md-4 col-lg-3">
                             <img
                               className="img img-fluid img-rounded-corners mb-2"
@@ -140,7 +140,11 @@ const InterviewShow: React.FC = () => {
                                   ? Euro
                                   : categoryId === 2
                                   ? Frontend
-                                  : Backend
+                                  : categoryId === 3
+                                  ? Backend
+                                  : categoryId === 4
+                                  ? Canada
+                                  : Turkey
                               }
                               alt={title}
                             />
