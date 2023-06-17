@@ -30,7 +30,6 @@ import Admin from "./pages/admin";
 import { PrivateRoute } from "./routes/privateRoute";
 import Services from "./pages/services";
 import Categories from "./pages/interviews/categories";
-import Meeting from "./pages/meeting";
 
 function App() {
   return (
@@ -81,7 +80,6 @@ function App() {
                 element={<PrivateRoute component={Payment} />}
               />
               <Route path="/" element={<Home />} />
-              <Route path="/meet" element={<Meeting />} />
             </Routes>
           </div>
         </Provider>
