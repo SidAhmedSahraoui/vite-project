@@ -16,7 +16,7 @@ interface PostItemProps {
   type: string;
 }
 const PostItem: React.FC<PostItemProps> = (props: PostItemProps) => {
-  const { post, type } = props;
+  const { post } = props;
 
   const { categoryId, title, description, space } = post;
 
