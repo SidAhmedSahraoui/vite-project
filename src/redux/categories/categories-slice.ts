@@ -107,6 +107,49 @@ export const loadCategories = (): AppThunk => async dispatch => {
     );
     dispatch(LoadedCategories(res.data));
   } catch (err) {
+    const fakeData = [
+      {
+        categoryId: 1,
+        title: "Entretien Campus France",
+        description:
+          "Pratiquez l'entretien Campus France avec nos experts n'hésitez plus ! réservez maintenant un entretien 1: 1, vous pouvez également réserver un entretien avec un expert pour vous aider à préparer votre dossier de candidature.",
+        type: "study",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 2,
+        title: "Frontend Developer Interview",
+        description:
+          "Assurez-vous d'avoir les connaissances nécessaires pour obtenir votre premier emploi en tant qu'ingénieur frontend et grandir dans votre première étape dans le domaine informatique",
+        type: "hiring",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 3,
+        title: "Backend Developer Interview",
+        description:
+          "Pratiquer toutes les questions de compétences backend,de la conception de l'API à la mise en œuvre et aux meilleures pratiques, Java, SQL ...",
+        type: "hiring",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 4,
+        title: "Study in Canada",
+        description:
+          "Choisissez le pays et l'université : Renseignez-vous sur les différents pays et les universités qui offrent les programmes d'études qui vous intéressent. Considérez des facteurs tels que la réputation académique, les frais de scolarité, etc.",
+        type: "study",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 5,
+        title: "Study in Turkey",
+        description:
+          "Préparez les documents nécessaires : Rassemblez les documents requis pour votre candidature, tels que les relevés de notes, les lettres de recommandation, les essais personnels, etc. Vérifiez les exigences spécifiques de chaque université.",
+        type: "study",
+        space: "INTERVIEW",
+      },
+    ];
+    dispatch(LoadedCategories(fakeData));
     const { response } = err as AxiosError;
 
     const errorMessage = response?.data || "Something unexpected happend!";
