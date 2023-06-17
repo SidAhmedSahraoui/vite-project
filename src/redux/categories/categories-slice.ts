@@ -169,6 +169,15 @@ export const loadCategory =
       );
       dispatch(Loaded(res.data));
     } catch (err) {
+      const fakeData = {
+        categoryId: 1,
+        title: "Entretien Campus France",
+        description:
+          "Pratiquez l'entretien Campus France avec nos experts n'hésitez plus ! réservez maintenant un entretien 1: 1, vous pouvez également réserver un entretien avec un expert pour vous aider à préparer votre dossier de candidature.",
+        type: "study",
+        space: "INTERVIEW",
+      };
+      dispatch(Loaded(fakeData));
       const { response } = err as AxiosError;
 
       const errorMessage = response?.data || "Something unexpected happend!";
