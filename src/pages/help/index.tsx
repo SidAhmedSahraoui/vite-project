@@ -2,7 +2,7 @@ import Helmet from "react-helmet";
 // Utils
 import { WEBSITE_NAME } from "../../utils/websiteData";
 import useStyles from "./style";
-const About = () => {
+const Help = () => {
   const classes = useStyles();
 
   return (
@@ -49,4 +49,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Help;

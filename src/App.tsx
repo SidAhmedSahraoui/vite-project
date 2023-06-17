@@ -30,6 +30,8 @@ import Admin from "./pages/admin";
 import { PrivateRoute } from "./routes/privateRoute";
 import Services from "./pages/services";
 import Categories from "./pages/interviews/categories";
+import About from "./pages/about";
+import Help from "./pages/help";
 
 function App() {
   return (
@@ -79,6 +81,8 @@ function App() {
                 path="/payment/:id"
                 element={<PrivateRoute component={Payment} />}
               />
+              <Route path="/about" element={<About />} />
+              <Route path="/help" element={<Help />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>
