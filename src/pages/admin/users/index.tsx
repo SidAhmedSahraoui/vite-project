@@ -10,7 +10,6 @@ import { User } from "../../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { Dialog, Transition } from "@headlessui/react";
-import colors from "../../../styling/colors";
 import { INPUT_TEXT } from "../../../styling/styling";
 
 const Users: React.FC = () => {
