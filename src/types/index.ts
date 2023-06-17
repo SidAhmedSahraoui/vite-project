@@ -155,6 +155,7 @@ export interface Appointment {
   token: string;
   clientEmail: string;
   providerUsername: string;
+  link: string;
   date: Date | string | null;
   day: number;
   slot: number;
@@ -166,6 +167,7 @@ export interface MyAppointment {
   providerEmail: string;
   appointmentDate: string;
   startsAt: string;
+  link: string;
   endsAt: string;
   isPayed: boolean;
   client: Client;

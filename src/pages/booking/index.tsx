@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import Helmet from "react-helmet";
+import { Dialog, Transition } from "@headlessui/react";
+
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
@@ -40,7 +42,6 @@ const Booking: React.FC = () => {
 
   useEffect(() => {
     dispatch(getPlanning(id || ""));
-    //eslint-disable-next-line
   }, [id]);
 
   const [selected, setSelected] = useState<Date>();
@@ -48,6 +49,15 @@ const Booking: React.FC = () => {
     format(selected || new Date(), "yyyy-MM-dd")
   );
   const [plan, setPlan] = useState<number>(0);
+
+  const [rdv, setRdv] = useState<Appointment>({
+    date: "",
+    slot: 0,
+    day: 0,
+    token: "",
+    clientEmail: "",
+    providerUsername: "",
+  });
 
   const onBookInterview = () => {
     const date: string = formatedDate;
@@ -69,7 +79,8 @@ const Booking: React.FC = () => {
       isAfter(selected || new Date(), new Date()) ||
       isSameDay(selected || new Date(), new Date())
     ) {
-      dispatch(addAppointment(appointment));
+      openModal();
+      setRdv(appointment);
     } else {
       dispatch(setAlert("You can't book an appointment in the past", "danger"));
     }
@@ -83,11 +94,144 @@ const Booking: React.FC = () => {
     return !planning?.days.some(day => day.dayId === date.getDay() + 1);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+  function submitAndClose() {
+    dispatch(addAppointment(rdv));
+    closeModal();
+  }
   return (
     <>
       <Helmet>
         <title>{`${WEBSITE_NAME} | Booking`}</title>
       </Helmet>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          style={{ position: "relative", zIndex: 10 }}
+          onClose={closeModal}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            />
+          </Transition.Child>
+
+          <div
+            style={{
+              overflowY: "auto",
+              position: "fixed",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                padding: "1rem",
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100%",
+              }}
+            >
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel
+                  style={{
+                    overflow: "hidden",
+                    padding: "1.5rem",
+                    backgroundColor: "#ffffff",
+                    transitionProperty: "all",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    width: "100%",
+                    maxWidth: "28rem",
+                    borderRadius: "1rem",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  }}
+                >
+                  <Dialog.Title
+                    as="h3"
+                    style={{
+                      color: "#111827",
+                      fontSize: "1.125rem",
+                      fontWeight: "500",
+                      lineHeight: "1.5rem",
+                    }}
+                  >
+                    Confirm Appointment
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Are you sure
+                      <br />
+                      You want to confirm this appointment?
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      style={{
+                        display: " inline-flex",
+                        paddingTop: "0.5rem",
+                        paddingBottom: "0.5rem",
+                        paddingLeft: "1rem",
+                        paddingRight: "1rem",
+                        backgroundColor: "#DBEAFE",
+                        color: "#1E3A8A",
+                        fontSize: "0.875rem",
+                        lineHeight: "1.25rem",
+                        fontWeight: "500",
+                        justifyContent: "center",
+                        borderRadius: "0.375rem",
+                        borderWidth: "1px",
+                        borderColor: "transparent",
+                      }}
+                      onClick={submitAndClose}
+                    >
+                      Yes, Book!
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
 
       <div className={`${classes.page} card-shadow text-center`}>
         <div className="head">

@@ -17,7 +17,7 @@ const useStyles = createUseStyles({
       alignItems: "center",
       width: "80%",
       padding: "12px 20px",
-      margin: "20px 10px",
+      margin: "5px 3px",
       color: colors.primary,
       "& span": {
         fontSize: "18px",

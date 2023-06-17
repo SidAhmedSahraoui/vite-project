@@ -16,8 +16,39 @@ const useStyles = createUseStyles({
     padding: "40px 20px",
     backgroundColor: colors["text-gray-400"],
     height: "100vh",
+    "& .row-container": {
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "space-evenly",
+      flexDirection: "row",
+      flexWrap: "nowrap",
+      "& .accordion": {
+        width: "540px",
+        padding: "25px 28px",
+        backgroundColor: "rgb(245, 245, 245)",
+        borderRadius: "4px",
+        "& .item": {
+          "& .sub-item": {
+            border: "1px solid rgba(224, 224, 224, 1)",
+            width: "100%",
+            margin: "0px",
+            padding: "5px",
+            fontWeight: "400",
+            fontSize: "16px",
+            borderRadius: "4px",
+            "& .form": {
+              width: "100%",
+              margin: "0px",
+            },
+          },
+        },
+      },
+      "& .paper": {
+        backgroundColor: "rgb(245, 245, 245)",
+        border: "1px solid rgba(224, 224, 224, 1)",
+      },
+    },
 
-    "&.card-shadow": CARD_SHADOW,
     "&> .title": {
       color: colors.primary,
     },
@@ -167,7 +198,6 @@ const useStyles = createUseStyles({
       },
     },
     "& .add-form": {
-      maxWidth: "520px",
       "& .input-text": {
         ...INPUT_TEXT,
         width: "100%",

@@ -39,7 +39,6 @@ const ClientAppointments: React.FC = () => {
     if (user) {
       dispatch(getAppointmentsForClient(user?.email));
     }
-    //eslint-disable-next-line
   }, [user]);
 
   const deleteAppointment = (id: number) => {
