@@ -131,7 +131,7 @@ const InterviewShow: React.FC = () => {
 
                     <div className="pictures mt-4">
                       <div className="row justify-content-center align-items-center">
-                        {categoryId in [1, 2, 3, 4, 5] ? (
+                        {categoryId ? (
                           <div className="col-12 col-sm-6 col-md-4 col-lg-3">
                             <img
                               className="img img-fluid img-rounded-corners mb-2"

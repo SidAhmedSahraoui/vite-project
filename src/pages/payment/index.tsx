@@ -65,7 +65,7 @@ const Payment: React.FC = () => {
 
     formData.append("username", username);
     formData.append("email", email);
-    formData.append("appointmentId", appointmentId);
+    formData.append("appointmentId", appointmentId?.toString() || "");
     if (file) {
       for (let i = 0; i < file.length; i++) {
         formData.append("file", file[i]);

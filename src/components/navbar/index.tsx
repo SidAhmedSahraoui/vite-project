@@ -139,15 +139,15 @@ const Navbar: React.FC = () => {
           aria-label="Toggle navigation"
           onClick={handleToggle}
         >
-          <FontAwesomeIcon
-            style={
-              toggleStatus !== "closed" && {
+          {toggleStatus !== "closed" && (
+            <FontAwesomeIcon
+              style={{
                 transformOrigin: "center",
                 transform: "rotate(90deg)",
-              }
-            }
-            icon={faBars}
-          />
+              }}
+              icon={faBars}
+            />
+          )}
         </button>
 
         <div

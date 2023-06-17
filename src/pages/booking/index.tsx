@@ -51,12 +51,13 @@ const Booking: React.FC = () => {
   const [plan, setPlan] = useState<number>(0);
 
   const [rdv, setRdv] = useState<Appointment>({
-    date: "",
-    slot: 0,
-    day: 0,
     token: "",
     clientEmail: "",
     providerUsername: "",
+    link: "",
+    date: "",
+    day: 0,
+    slot: 0,
   });
 
   const onBookInterview = () => {
@@ -67,12 +68,13 @@ const Booking: React.FC = () => {
     const clientEmail: string = user?.email || "";
     const providerUsername = id || "";
     const appointment: Appointment = {
-      date,
-      slot,
-      day,
       token,
       clientEmail,
       providerUsername,
+      date,
+      slot,
+      day,
+      link: "",
     };
 
     if (

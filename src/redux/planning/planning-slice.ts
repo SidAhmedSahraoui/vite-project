@@ -230,7 +230,7 @@ export const payment =
       };
       const res: AxiosResponse = await axios.post(
         `${Api}/interview-service/interviews/payment`,
-        FormData,
+        { ...FormData, appointmentId: parseInt(FormData.appointmentId) },
         config
       );
       dispatch(setAlert(res.data?.message, "success"));

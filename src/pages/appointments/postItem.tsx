@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 import NoImage from "../../assets/images/no-image.svg";
@@ -9,8 +8,14 @@ import { MyAppointment } from "../../types";*/
 import { Button, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { MyAppointment } from "../../types";
 
-const PostItem: React.FC = (props: any) => {
+interface PropsType {
+  post: MyAppointment;
+  onCancel: () => void;
+}
+
+const PostItem = (props: PropsType) => {
   const { post, onCancel } = props;
   return (
     <div className="postitem postitem-card p-3 mb-4">
