@@ -88,7 +88,6 @@ const Booking: React.FC = () => {
     } else {
       dispatch(setAlert("You can't book an appointment in the past", "danger"));
     }
-    setStep(step + 1);
   };
 
   useEffect(() => {
@@ -110,6 +109,7 @@ const Booking: React.FC = () => {
   function submitAndClose() {
     dispatch(addAppointment(rdv));
     closeModal();
+    setStep(step + 1);
   }
   const [step, setStep] = useState(0);
   const onNext: React.MouseEventHandler<HTMLButtonElement> = e => {
@@ -381,10 +381,10 @@ const Booking: React.FC = () => {
               </div>
             </Row>
             <div className="section basic-info mt-4">
-              <button onClick={onBookInterview} className="btn btn-secondary">
+              <button onClick={onPrevious} className="btn btn-secondary">
                 Back
               </button>
-              <button onClick={onNext} className="btn btn-primary">
+              <button onClick={onBookInterview} className="btn btn-primary">
                 Continue
               </button>
             </div>
