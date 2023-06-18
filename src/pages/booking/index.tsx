@@ -27,7 +27,7 @@ import { format, isSameDay } from "date-fns";
 // Components
 import Spinner from "../../components/spinner";
 import { RadioGroup, Tab } from "@headlessui/react";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import clsx from "clsx";
 import { Appointment } from "../../types";
 import { isAfter } from "date-fns";
