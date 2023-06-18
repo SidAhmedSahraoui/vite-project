@@ -88,6 +88,7 @@ const Booking: React.FC = () => {
     } else {
       dispatch(setAlert("You can't book an appointment in the past", "danger"));
     }
+    setStep(step + 1);
   };
 
   useEffect(() => {
@@ -247,13 +248,13 @@ const Booking: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
-      {step === 0 ? (
+      {step === 1 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
             <Progress.Root className="ProgressRoot" value={60}>
               <Progress.Indicator
                 className="ProgressIndicator"
-                style={{ width: `0%` }}
+                style={{ width: `25%` }}
               />
             </Progress.Root>
           </div>
@@ -380,23 +381,22 @@ const Booking: React.FC = () => {
               </div>
             </Row>
             <div className="section basic-info mt-4">
-              <Link to="/interviews/1/providers">
-                <button className="btn btn-secondary">Back</button>
-              </Link>
-
+              <button onClick={onBookInterview} className="btn btn-secondary">
+                Back
+              </button>
               <button onClick={onNext} className="btn btn-primary">
                 Continue
               </button>
             </div>
           </div>
         </div>
-      ) : step === 1 ? (
+      ) : step === 0 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
             <Progress.Root className="ProgressRoot" value={60}>
               <Progress.Indicator
                 className="ProgressIndicator"
-                style={{ width: `25%` }}
+                style={{ width: `0%` }}
               />
             </Progress.Root>
           </div>
@@ -457,9 +457,9 @@ const Booking: React.FC = () => {
               </Form.Root>
             </div>
             <div className="section basic-info mt-4">
-              <button onClick={onPrevious} className="btn btn-secondary">
-                Back
-              </button>
+              <Link to="/interviews/1/providers">
+                <button className="btn btn-secondary">Back</button>
+              </Link>
 
               <button onClick={onNext} className="btn btn-primary">
                 Continue

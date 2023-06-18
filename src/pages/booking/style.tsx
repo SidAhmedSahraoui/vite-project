@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
       borderRadius: "5px",
       display: "flex",
       flexDirection: "column",
-      flexWrap: "wrap",
+      flexWrap: "nowrap",
       justifyContent: "flex-start",
       alignItems: "start",
     },
