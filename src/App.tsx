@@ -17,7 +17,6 @@ import { Toaster } from "react-hot-toast";
 import Home from "./pages/home";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import Interviews from "./pages/interviews";
 import InterviewShow from "./pages/interviews/interviewShow";
 import Profile from "./pages/profile";
 import CategoryProviders from "./pages/interviews/categoryProvider";
