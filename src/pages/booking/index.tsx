@@ -111,6 +111,15 @@ const Booking: React.FC = () => {
     closeModal();
   }
   const [step, setStep] = useState(0);
+  const onNext: React.MouseEventHandler<HTMLButtonElement> = e => {
+    e.preventDefault();
+    setStep(step + 1);
+  };
+
+  const onPrevious: React.MouseEventHandler<HTMLButtonElement> = e => {
+    e.preventDefault();
+    setStep(step - 1);
+  };
 
   return (
     <>
@@ -238,7 +247,7 @@ const Booking: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
-      {step === 1 ? (
+      {step === 0 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
             <Progress.Root className="ProgressRoot" value={60}>
@@ -375,13 +384,13 @@ const Booking: React.FC = () => {
                 <button className="btn btn-secondary">Back</button>
               </Link>
 
-              <button onClick={onBookInterview} className="btn btn-primary">
+              <button onClick={onNext} className="btn btn-primary">
                 Continue
               </button>
             </div>
           </div>
         </div>
-      ) : step === 0 ? (
+      ) : step === 1 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
             <Progress.Root className="ProgressRoot" value={60}>
@@ -438,26 +447,21 @@ const Booking: React.FC = () => {
                     }}
                   >
                     <Form.Label className="FormLabel">
-                      Domaine d'études :
+                      Ajouter un Document :
                     </Form.Label>
                     <Form.Control asChild>
-                      <input className="Input" type="file" required />
+                      <input className="File" type="file" required />
                     </Form.Control>
                   </div>
                 </Form.Field>
-                <Form.Submit asChild>
-                  <button className="Button" style={{ marginTop: 10 }}>
-                    Post question
-                  </button>
-                </Form.Submit>
               </Form.Root>
             </div>
             <div className="section basic-info mt-4">
-              <Link to="/interviews/1/providers">
-                <button className="btn btn-secondary">Back</button>
-              </Link>
+              <button onClick={onPrevious} className="btn btn-secondary">
+                Back
+              </button>
 
-              <button onClick={onBookInterview} className="btn btn-primary">
+              <button onClick={onNext} className="btn btn-primary">
                 Continue
               </button>
             </div>
