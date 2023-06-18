@@ -16,8 +16,40 @@ const useStyles = createUseStyles({
     marginBottom: "40px",
     margin: "0 auto",
     marginTop: "35px",
-    "&.card-shadow": CARD_SHADOW,
+    "&.card-shadow": {
+      ...CARD_SHADOW,
+      margin: "20px auto",
+      height: "80vh",
+      width: "80%",
+      borderRadius: "5px",
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+      justifyContent: "flex-start",
+      alignItems: "start",
+    },
     "& .head": {
+      width: "100%",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      "& .ProgressRoot": {
+        position: "relative",
+        overflow: "hidden",
+        backgroundColor: colors["text-gray-200"],
+        border: `1px solid ${colors["text-gray-400"]}`,
+        borderRadius: "99999px",
+        width: "900px",
+        margin: "0 auto",
+        height: "10px",
+        transform: "translateZ(0)",
+      },
+
+      "& .ProgressIndicator": {
+        backgroundColor: "rgb(76, 76, 240)",
+        height: "100%",
+        transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)",
+      },
       "&> .title": {
         color: colors.primary,
         fontSize: "24px",
@@ -37,6 +69,58 @@ const useStyles = createUseStyles({
           background: colors["primary-hover"],
         },
       },
+      "& .col-form": {
+        "& input textarea button": {
+          all: "unset",
+          boxSizing: "border-box",
+        },
+
+        "& .FormRoot": {
+          width: "80%",
+          margin: "0 auto",
+        },
+
+        "& .FormField": {
+          display: "grid",
+          width: "100%",
+          marginBottom: "10px",
+        },
+
+        "& .FormLabel": {
+          fontSize: "18px",
+          fontWeight: "700",
+          lineHeight: "35px",
+          width: "350px !important",
+          textAlign: "left",
+          color: colors["text-gray-900"],
+        },
+
+        "& .Textarea": {
+          ...INPUT_TEXT,
+          width: "100%",
+          height: "215px",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "4px",
+          border: `1px solid ${colors["text-gray-600"]}`,
+          fontSize: "15px",
+          color: "white",
+          boxShadow: `0 0 0 1px ${colors["text-gray-600"]}`,
+        },
+        "& .Input": {
+          ...INPUT_TEXT,
+          border: `1px solid ${colors["text-gray-600"]}`,
+          width: "100%",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "4px",
+          fontSize: "15px",
+          color: "white",
+          boxShadow: `0 0 0 1px ${colors["text-gray-600"]}`,
+        },
+      },
       "& .button-primary-outline": BUTTON_PRIMARY_OUTLINE,
       "& .button-light": BUTTON_LIGHT,
       "& .button-gray": BUTTON_PRIMARY,
@@ -47,6 +131,22 @@ const useStyles = createUseStyles({
       },
 
       "& .link-primary": LINK_PRIMARY,
+      "& .basic-info": {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        alignItems: "center",
+        "& .btn-primary": {
+          ...BUTTON_PRIMARY,
+        },
+        "& .btn-secondary": {
+          ...BUTTON_PRIMARY_OUTLINE,
+        },
+        "& .btn": {
+          marginLeft: "40px",
+        },
+      },
       "& .pick": {
         display: "flex",
         justifyContent: "center",

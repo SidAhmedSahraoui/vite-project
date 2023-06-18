@@ -197,6 +197,47 @@ export const loadProviders =
       );
       dispatch(LoadedProviders(res.data));
     } catch (err) {
+      const fakeData = [
+        {
+          providerId: 1,
+          user: {
+            userId: 2,
+            username: "ahmed",
+            email: "ahmed@pmentors.dz",
+            firstName: "ahmed",
+            lastName: "ahmed",
+            phone: null,
+            roles: [
+              {
+                roleId: 2,
+                roleName: "USER",
+              },
+              {
+                roleId: 3,
+                roleName: "PROVIDER",
+              },
+            ],
+            locked: false,
+            authorities: [
+              {
+                authority: "USER",
+              },
+              {
+                authority: "PROVIDER",
+              },
+            ],
+          },
+          category: {
+            categoryId: 1,
+            title: "Entretien Campus France",
+            description:
+              "Pratiquez l'entretien Campus France avec nos experts n'hésitez plus ! réservez maintenant un entretien 1: 1, vous pouvez également réserver un entretien avec un expert pour vous aider à préparer votre dossier de candidature.",
+            type: "study",
+            space: "INTERVIEW",
+          },
+        },
+      ];
+      dispatch(LoadedProviders(fakeData));
       const { response } = err as AxiosError;
 
       const errorMessage = response?.data || "Something unexpected happend!";

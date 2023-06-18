@@ -13,9 +13,22 @@ import {
 const useStyles = createUseStyles({
   page: {
     padding: "40px 20px",
-    marginTop: "40px",
-    marginBottom: "40px",
-    "&.card-shadow": CARD_SHADOW,
+    width: "80%",
+    borderRadius: "5px",
+    margin: "40px auto",
+    "&.card-shadow": {
+      ...CARD_SHADOW,
+      margin: "20px auto",
+      height: "80vh",
+      width: "80%",
+      borderRadius: "5px",
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+    },
+
     "&> .title": {
       color: colors.primary,
     },
@@ -145,6 +158,17 @@ const useStyles = createUseStyles({
       },
     },
     "&.user-posts": {
+      ...CARD_SHADOW,
+      margin: "20px auto",
+      height: "80vh",
+      width: "80%",
+      borderRadius: "5px",
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+      justifyContent: "flex-start",
+      alignItems: "start",
+
       "& .table": {
         minWidth: "750px",
         "& thead th": {

@@ -131,6 +131,111 @@ export const getPlanning =
       );
       dispatch(planningLoaded(planning));
     } catch (err) {
+      const fakePlanning: Planning = {
+        days: [
+          {
+            dayId: 2,
+            dayName: "MONDAY",
+          },
+          {
+            dayId: 4,
+            dayName: "WEDNESDAY",
+          },
+          {
+            dayId: 6,
+            dayName: "FRIDAY",
+          },
+          {
+            dayId: 1,
+            dayName: "SUNDAY",
+          },
+          {
+            dayId: 3,
+            dayName: "TUESDAY",
+          },
+          {
+            dayId: 7,
+            dayName: "SATURDAY",
+          },
+          {
+            dayId: 5,
+            dayName: "THURSDAY",
+          },
+        ],
+        slots: [
+          {
+            timeSlotId: 23,
+            startsAt: "11:00:00",
+            endsAt: "11:30:00",
+          },
+          {
+            timeSlotId: 43,
+            startsAt: "21:00:00",
+            endsAt: "21:30:00",
+          },
+
+          {
+            timeSlotId: 5,
+            startsAt: "02:00:00",
+            endsAt: "02:30:00",
+          },
+          {
+            timeSlotId: 18,
+            startsAt: "08:30:00",
+            endsAt: "09:00:00",
+          },
+          {
+            timeSlotId: 38,
+            startsAt: "18:30:00",
+            endsAt: "19:00:00",
+          },
+          {
+            timeSlotId: 14,
+            startsAt: "06:30:00",
+            endsAt: "07:00:00",
+          },
+          {
+            timeSlotId: 19,
+            startsAt: "09:00:00",
+            endsAt: "09:30:00",
+          },
+          {
+            timeSlotId: 3,
+            startsAt: "01:00:00",
+            endsAt: "01:30:00",
+          },
+          {
+            timeSlotId: 9,
+            startsAt: "04:00:00",
+            endsAt: "04:30:00",
+          },
+          {
+            timeSlotId: 28,
+            startsAt: "13:30:00",
+            endsAt: "14:00:00",
+          },
+          {
+            timeSlotId: 31,
+            startsAt: "15:00:00",
+            endsAt: "15:30:00",
+          },
+          {
+            timeSlotId: 11,
+            startsAt: "05:00:00",
+            endsAt: "05:30:00",
+          },
+          {
+            timeSlotId: 33,
+            startsAt: "16:00:00",
+            endsAt: "16:30:00",
+          },
+        ],
+      };
+      fakePlanning.slots = fakePlanning?.slots?.sort(
+        (a, b) => a.timeSlotId - b.timeSlotId
+      );
+      dispatch(planningLoaded(fakePlanning));
+
       console.log(err);
       dispatch(addError("Error loading planning"));
     }
