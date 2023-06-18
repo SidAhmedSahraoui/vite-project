@@ -32,6 +32,7 @@ import Services from "./pages/services";
 import Categories from "./pages/interviews/categories";
 import About from "./pages/about";
 import Help from "./pages/help";
+import Domains from "./pages/interviews/domains";
 
 function App() {
   return (
@@ -51,11 +52,11 @@ function App() {
               />
               <Route path="/services" element={<Services />} />
               <Route path="/interviews" element={<Categories />} />
-              <Route path="/interviews/:id" element={<Interviews />} />
+              <Route path="/interviews/:id" element={<Domains />} />
               <Route path="/interviews/show/:id" element={<InterviewShow />} />
               <Route
                 path="/interviews/:id/providers"
-                element={<PrivateRoute component={CategoryProviders} />}
+                element={<CategoryProviders />}
               />
               <Route
                 path="/appointments/client"
@@ -69,10 +70,7 @@ function App() {
                 path="/appointments"
                 element={<PrivateRoute component={ProviderAppointments} />}
               />
-              <Route
-                path="/booking/:id"
-                element={<PrivateRoute component={BookingPage} />}
-              />
+              <Route path="/booking/:id" element={<BookingPage />} />
               <Route
                 path="/planning"
                 element={<PrivateRoute component={Planning} />}

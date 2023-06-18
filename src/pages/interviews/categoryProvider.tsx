@@ -31,12 +31,7 @@ const CategoryProviders: React.FC = () => {
       <Helmet>
         <title>{`${WEBSITE_NAME} | Your posts`}</title>
       </Helmet>
-      <div className={`${classes.page} user-posts card-shadow text-center`}>
-        <h3 className="title">Service Providers</h3>
-        <h6 className="subtitle">
-          Check the services and prices or book your appointment
-        </h6>
-
+      <div className={`${classes.page} user-posts text-center`}>
         {!providers ? (
           <div className="row mt-5">
             <div className="col text-center">

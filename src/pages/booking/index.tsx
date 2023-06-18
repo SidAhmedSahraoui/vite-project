@@ -9,10 +9,12 @@ import {
   getPlanning,
   setAlert,
 } from "../../redux/planning/planning-slice";
+import * as Progress from "@radix-ui/react-progress";
+import * as Form from "@radix-ui/react-form";
 
 // Utils
 import { WEBSITE_NAME } from "../../utils/websiteData";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // Styles
 import useStyles from "./style";
@@ -25,7 +27,7 @@ import { format, isSameDay } from "date-fns";
 // Components
 import Spinner from "../../components/spinner";
 import { RadioGroup, Tab } from "@headlessui/react";
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import clsx from "clsx";
 import { Appointment } from "../../types";
 import { isAfter } from "date-fns";
@@ -107,7 +109,19 @@ const Booking: React.FC = () => {
   function submitAndClose() {
     dispatch(addAppointment(rdv));
     closeModal();
+    setStep(step + 1);
   }
+  const [step, setStep] = useState(0);
+  const onNext: React.MouseEventHandler<HTMLButtonElement> = e => {
+    e.preventDefault();
+    setStep(step + 1);
+  };
+
+  const onPrevious: React.MouseEventHandler<HTMLButtonElement> = e => {
+    e.preventDefault();
+    setStep(step - 1);
+  };
+
   return (
     <>
       <Helmet>
@@ -234,137 +248,226 @@ const Booking: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
-
-      <div className={`${classes.page} card-shadow text-center`}>
-        <div className="head">
-          <h3 className="title">Booking Info</h3>
-        </div>
-
-        <div className="content mt-5">
-          <>
-            <div className="section basic-info mt-4">
-              <h5 className="title text-left mt-2">
-                Select a date for the interview
-              </h5>
-            </div>
-          </>
-          <Row className="pick">
-            <div className="days">
-              <DayPicker
-                mode="single"
-                selected={selected}
-                onSelect={setSelected}
-                footer={false}
-                modifiers={{ disabled: isDisabled }}
+      {step === 1 ? (
+        <div className={`${classes.page} card-shadow text-center`}>
+          <div className="head">
+            <Progress.Root className="ProgressRoot" value={60}>
+              <Progress.Indicator
+                className="ProgressIndicator"
+                style={{ width: `25%` }}
               />
+            </Progress.Root>
+          </div>
+
+          <div className="content mt-5">
+            <>
+              <div className="section basic-info mt-4">
+                <h5 className="title text-left mt-2">
+                  Select a date for the interview
+                </h5>
+              </div>
+            </>
+            <Row className="pick">
+              <div className="days">
+                <DayPicker
+                  mode="single"
+                  selected={selected}
+                  onSelect={setSelected}
+                  footer={false}
+                  modifiers={{ disabled: isDisabled }}
+                />
+              </div>
+              <div className="slots">
+                {!loading ? (
+                  <Tab.Group>
+                    <Tab.List className="tab-list">
+                      <Tab className="page">Page 1</Tab>
+                      <Tab className="page">Page 2</Tab>
+                      <Tab className="page">Page 3</Tab>
+                    </Tab.List>
+                    <Tab.Panels className="radio-group">
+                      <Tab.Panel>
+                        <RadioGroup
+                          className="radio-group"
+                          value={plan}
+                          onChange={setPlan}
+                        >
+                          {planning?.slots.map(
+                            slot =>
+                              slot.timeSlotId > 0 &&
+                              slot.timeSlotId < 16 && (
+                                <Fragment key={slot.timeSlotId}>
+                                  <RadioGroup.Option
+                                    className={clsx("radio-option", {
+                                      "bg-selected": plan === slot.timeSlotId,
+                                      "bg-not-selected":
+                                        plan !== slot.timeSlotId,
+                                    })}
+                                    value={slot.timeSlotId}
+                                  >
+                                    <span>
+                                      From {slot.startsAt.substring(0, 5)} to{" "}
+                                      {slot.endsAt.substring(0, 5)}
+                                    </span>
+                                  </RadioGroup.Option>
+                                </Fragment>
+                              )
+                          )}
+                        </RadioGroup>
+                      </Tab.Panel>
+                      <Tab.Panel>
+                        <RadioGroup
+                          className="radio-group"
+                          value={plan}
+                          onChange={setPlan}
+                        >
+                          {planning?.slots.map(
+                            slot =>
+                              slot.timeSlotId > 15 &&
+                              slot.timeSlotId < 33 && (
+                                <Fragment key={slot.timeSlotId}>
+                                  <RadioGroup.Option
+                                    className={clsx("radio-option", {
+                                      "bg-selected": plan === slot.timeSlotId,
+                                      "bg-not-selected":
+                                        plan !== slot.timeSlotId,
+                                    })}
+                                    value={slot.timeSlotId}
+                                  >
+                                    <span>
+                                      From {slot.startsAt.substring(0, 5)} to{" "}
+                                      {slot.endsAt.substring(0, 5)}
+                                    </span>
+                                  </RadioGroup.Option>
+                                </Fragment>
+                              )
+                          )}
+                        </RadioGroup>
+                      </Tab.Panel>
+                      <Tab.Panel>
+                        {" "}
+                        <RadioGroup
+                          className="radio-group"
+                          value={plan}
+                          onChange={setPlan}
+                        >
+                          {planning?.slots.map(
+                            slot =>
+                              slot.timeSlotId > 32 && (
+                                <Fragment key={slot.timeSlotId}>
+                                  <RadioGroup.Option
+                                    className={clsx("radio-option", {
+                                      "bg-selected": plan === slot.timeSlotId,
+                                      "bg-not-selected":
+                                        plan !== slot.timeSlotId,
+                                    })}
+                                    value={slot.timeSlotId}
+                                  >
+                                    <span>
+                                      From {slot.startsAt.substring(0, 5)} to{" "}
+                                      {slot.endsAt.substring(0, 5)}
+                                    </span>
+                                  </RadioGroup.Option>
+                                </Fragment>
+                              )
+                          )}
+                        </RadioGroup>
+                      </Tab.Panel>
+                    </Tab.Panels>
+                  </Tab.Group>
+                ) : (
+                  <Spinner />
+                )}
+              </div>
+            </Row>
+            <div className="section basic-info mt-4">
+              <button onClick={onPrevious} className="btn btn-secondary">
+                Back
+              </button>
+              <button onClick={onBookInterview} className="btn btn-primary">
+                Continue
+              </button>
             </div>
-            <div className="slots">
-              {!loading ? (
-                <Tab.Group>
-                  <Tab.List className="tab-list">
-                    <Tab className="page">Page 1</Tab>
-                    <Tab className="page">Page 2</Tab>
-                    <Tab className="page">Page 3</Tab>
-                  </Tab.List>
-                  <Tab.Panels className="radio-group">
-                    <Tab.Panel>
-                      <RadioGroup
-                        className="radio-group"
-                        value={plan}
-                        onChange={setPlan}
-                      >
-                        {planning?.slots.map(
-                          slot =>
-                            slot.timeSlotId > 0 &&
-                            slot.timeSlotId < 16 && (
-                              <Fragment key={slot.timeSlotId}>
-                                <RadioGroup.Option
-                                  className={clsx("radio-option", {
-                                    "bg-selected": plan === slot.timeSlotId,
-                                    "bg-not-selected": plan !== slot.timeSlotId,
-                                  })}
-                                  value={slot.timeSlotId}
-                                >
-                                  <span>
-                                    From {slot.startsAt.substring(0, 5)} to{" "}
-                                    {slot.endsAt.substring(0, 5)}
-                                  </span>
-                                </RadioGroup.Option>
-                              </Fragment>
-                            )
-                        )}
-                      </RadioGroup>
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      <RadioGroup
-                        className="radio-group"
-                        value={plan}
-                        onChange={setPlan}
-                      >
-                        {planning?.slots.map(
-                          slot =>
-                            slot.timeSlotId > 15 &&
-                            slot.timeSlotId < 33 && (
-                              <Fragment key={slot.timeSlotId}>
-                                <RadioGroup.Option
-                                  className={clsx("radio-option", {
-                                    "bg-selected": plan === slot.timeSlotId,
-                                    "bg-not-selected": plan !== slot.timeSlotId,
-                                  })}
-                                  value={slot.timeSlotId}
-                                >
-                                  <span>
-                                    From {slot.startsAt.substring(0, 5)} to{" "}
-                                    {slot.endsAt.substring(0, 5)}
-                                  </span>
-                                </RadioGroup.Option>
-                              </Fragment>
-                            )
-                        )}
-                      </RadioGroup>
-                    </Tab.Panel>
-                    <Tab.Panel>
-                      {" "}
-                      <RadioGroup
-                        className="radio-group"
-                        value={plan}
-                        onChange={setPlan}
-                      >
-                        {planning?.slots.map(
-                          slot =>
-                            slot.timeSlotId > 32 && (
-                              <Fragment key={slot.timeSlotId}>
-                                <RadioGroup.Option
-                                  className={clsx("radio-option", {
-                                    "bg-selected": plan === slot.timeSlotId,
-                                    "bg-not-selected": plan !== slot.timeSlotId,
-                                  })}
-                                  value={slot.timeSlotId}
-                                >
-                                  <span>
-                                    From {slot.startsAt.substring(0, 5)} to{" "}
-                                    {slot.endsAt.substring(0, 5)}
-                                  </span>
-                                </RadioGroup.Option>
-                              </Fragment>
-                            )
-                        )}
-                      </RadioGroup>
-                    </Tab.Panel>
-                  </Tab.Panels>
-                </Tab.Group>
-              ) : (
-                <Spinner />
-              )}
-            </div>
-          </Row>
-          <div className="section basic-info mt-4">
-            <button onClick={onBookInterview} className="btn btn-primary">
-              Book interview
-            </button>
           </div>
         </div>
-      </div>
+      ) : step === 0 ? (
+        <div className={`${classes.page} card-shadow text-center`}>
+          <div className="head">
+            <Progress.Root className="ProgressRoot" value={60}>
+              <Progress.Indicator
+                className="ProgressIndicator"
+                style={{ width: `0%` }}
+              />
+            </Progress.Root>
+          </div>
+
+          <div className="content mt-5">
+            <div className="col-form">
+              <Form.Root className="FormRoot">
+                <Form.Field className="FormField" name="domain">
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Form.Label className="FormLabel">
+                      Domaine d'études :
+                    </Form.Label>
+                    <Form.Control asChild>
+                      <input className="Input" type="text" required />
+                    </Form.Control>
+                  </div>
+                </Form.Field>
+                <Form.Field className="FormField" name="description">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Form.Label className="FormLabel">
+                      Ajouter une description
+                    </Form.Label>
+                  </div>
+                  <Form.Control asChild>
+                    <textarea className="Textarea" required />
+                  </Form.Control>
+                </Form.Field>
+                <Form.Field className="FormField" name="file">
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Form.Label className="FormLabel">
+                      Ajouter un Document :
+                    </Form.Label>
+                    <Form.Control asChild>
+                      <input className="File" type="file" required />
+                    </Form.Control>
+                  </div>
+                </Form.Field>
+              </Form.Root>
+            </div>
+            <div className="section basic-info mt-4">
+              <Link to="/interviews/1/providers">
+                <button className="btn btn-secondary">Back</button>
+              </Link>
+
+              <button onClick={onNext} className="btn btn-primary">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };
