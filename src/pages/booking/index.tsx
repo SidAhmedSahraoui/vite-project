@@ -11,11 +11,17 @@ import {
 } from "../../redux/planning/planning-slice";
 import * as Progress from "@radix-ui/react-progress";
 import * as Form from "@radix-ui/react-form";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../../components/ui/accordion";
 // Utils
 import { WEBSITE_NAME } from "../../utils/websiteData";
 import { Link, useParams } from "react-router-dom";
-
+import Eccp from "../../assets/images/eccp.svg";
+import Visa from "../../assets/images/Visa.svg";
 // Styles
 import useStyles from "./style";
 import "react-day-picker/dist/style.css";
@@ -31,11 +37,17 @@ import { Row } from "react-bootstrap";
 import clsx from "clsx";
 import { Appointment } from "../../types";
 import { isAfter } from "date-fns";
+import { payment } from "../../redux/planning/planning-slice";
+
+interface StateType {
+  email: string;
+  username: string;
+  appointmentId: number | null;
+  file: FileList | null;
+}
 
 const Booking: React.FC = () => {
   const classes = useStyles();
-
-  const dispatch = useAppDispatch();
 
   const { user } = useAppSelector(state => state.auth);
   const { planning, loading } = useAppSelector(state => state.planning);
@@ -120,6 +132,48 @@ const Booking: React.FC = () => {
   const onPrevious: React.MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
     setStep(step - 1);
+  };
+
+  const [post, setPost] = useState<StateType>({
+    email: "",
+    username: "",
+    appointmentId: null,
+    file: null,
+  });
+  const { email, username, appointmentId, file } = post || {};
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      setPost({ ...post, appointmentId: parseInt(id) });
+    }
+  }, [id]);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPost({
+      ...post,
+      [e.target.name]: e.target.value,
+    });
+  const onChangeImages = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPost({ ...post, file: e.target.files });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (username === "" || email === "") {
+      dispatch(setAlert("Please fill all fields", "danger"));
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("appointmentId", appointmentId?.toString() || "");
+    if (file) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append("file", file[i]);
+      }
+    }
+    dispatch(payment(formData));
   };
 
   return (
@@ -460,6 +514,93 @@ const Booking: React.FC = () => {
               <Link to="/interviews/1/providers">
                 <button className="btn btn-secondary">Back</button>
               </Link>
+
+              <button onClick={onNext} className="btn btn-primary">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : step === 2 ? (
+        <div className={`${classes.page} card-shadow text-center`}>
+          <div className="head">
+            <Progress.Root className="ProgressRoot" value={80}>
+              <Progress.Indicator
+                className="ProgressIndicator"
+                style={{ width: `50%` }}
+              />
+            </Progress.Root>
+          </div>
+          <div className="content mt-5">
+            <div className="col-form">
+              <Row className="row-container">
+                <Accordion type="single" collapsible className="accordion">
+                  <AccordionItem className="item" value="item-1">
+                    <AccordionTrigger className="sub-item  item-title">
+                      <h5>Recu de paiement CCP</h5>{" "}
+                      <img src={Eccp} alt="eccp" />
+                    </AccordionTrigger>
+                    <AccordionContent className="sub-item item-content">
+                      <form onSubmit={onSubmit} className="form">
+                        <div className="input-group">
+                          <input
+                            type="text"
+                            className="input-text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={onChange}
+                            name="username"
+                          />
+                          <input
+                            type="text"
+                            className="input-text"
+                            placeholder="Email"
+                            value={email}
+                            onChange={onChange}
+                            name="email"
+                          />
+
+                          <input
+                            id="file"
+                            className="input-text"
+                            type="file"
+                            name="file"
+                            onChange={onChangeImages}
+                            multiple
+                          />
+
+                          <button type="submit" className="button-primary">
+                            Pay Now
+                          </button>
+                        </div>
+                      </form>{" "}
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem className="item" value="item-2">
+                    <AccordionTrigger className="sub-item  item-title">
+                      <h5>Carte de crédit / débit</h5>{" "}
+                      <img src={Visa} alt="visa" />
+                    </AccordionTrigger>
+                    <AccordionContent className="sub-item">
+                      Yes. It comes with default styles that matches the other
+                      components' aesthetic.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <div className="paper">
+                  <h5>Nous confirmons votre RDV </h5>
+                  <h5>Candidat : Sid Ahmed SAHRAOUI</h5>
+                  <h5>Date : Jeudi 18 septembre</h5>
+                  <h5>Heure : 16h30 </h5>
+                  <h5>Durée : 30 min </h5>
+                  <h5>Metez vous a l’heure.</h5>
+                </div>
+              </Row>
+            </div>
+            <div className="section basic-info mt-4">
+              <button onClick={onPrevious} className="btn btn-secondary">
+                Back
+              </button>
 
               <button onClick={onNext} className="btn btn-primary">
                 Continue

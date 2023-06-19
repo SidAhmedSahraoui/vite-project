@@ -70,6 +70,65 @@ const useStyles = createUseStyles({
         },
       },
       "& .col-form": {
+        "& .row-container": {
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-evenly",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          "& .accordion": {
+            width: "540px",
+            padding: "25px 28px",
+            backgroundColor: "rgb(245, 245, 245)",
+            borderRadius: "4px",
+            "& .item": {
+              "& .sub-item": {
+                border: "1px solid rgba(224, 224, 224, 1)",
+                width: "100%",
+                margin: "0px",
+                padding: "5px",
+                fontWeight: "400",
+                fontSize: "16px",
+                borderRadius: "4px",
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "end",
+                "& h5": {
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  marginRight: "24px",
+                  marginBottom: "0px",
+                },
+                "& img": {
+                  width: "32px",
+                  height: "24px",
+                },
+                "& .form": {
+                  width: "100%",
+                  margin: "0px",
+                  "& .input-group": {
+                    alignItems: "center",
+                    "& .input-text": {
+                      ...INPUT_TEXT,
+                      width: "100%",
+                      marginBottom: "20px",
+                    },
+                    "& .input-file": {
+                      ...INPUT_TEXT,
+                      background: colors["text-gray-300"],
+                      width: "100%",
+                      marginBottom: "20px",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          "& .paper": {
+            backgroundColor: "rgb(245, 245, 245)",
+            border: "1px solid rgba(224, 224, 224, 1)",
+          },
+        },
         "& input textarea button": {
           all: "unset",
           boxSizing: "border-box",
