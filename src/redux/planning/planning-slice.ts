@@ -265,7 +265,8 @@ export const addAppointment =
         `${Api}/interview-service/interviews/add-appointment`,
         appointment
       );
-      console.log(res.data);
+      console.log(res.data?.appointmentId);
+      localStorage.setItem("appointmentId", res.data?.appointmentId);
       dispatch(setAlert("Appointment added successfully", "success"));
     } catch (err) {
       const { response } = err as AxiosError;
@@ -324,19 +325,13 @@ export const cancelAppointment =
   };
 
 export const payment =
-  (FormData: any): AppThunk =>
+  (formData: FormData): AppThunk =>
   async dispatch => {
     try {
       dispatch(setLoading());
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
       const res: AxiosResponse = await axios.post(
         `${Api}/interview-service/interviews/payment`,
-        { ...FormData, appointmentId: parseInt(FormData.appointmentId) },
-        config
+        formData
       );
       dispatch(setAlert(res.data?.message, "success"));
     } catch (err) {

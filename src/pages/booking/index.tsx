@@ -42,7 +42,6 @@ import { payment } from "../../redux/planning/planning-slice";
 interface StateType {
   email: string;
   username: string;
-  appointmentId: number | null;
   file: FileList | null;
 }
 
@@ -137,17 +136,12 @@ const Booking: React.FC = () => {
   const [post, setPost] = useState<StateType>({
     email: "",
     username: "",
-    appointmentId: null,
     file: null,
   });
-  const { email, username, appointmentId, file } = post || {};
+  const { email, username, file } = post || {};
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (id) {
-      setPost({ ...post, appointmentId: parseInt(id) });
-    }
-  }, [id]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPost({
       ...post,
@@ -167,7 +161,10 @@ const Booking: React.FC = () => {
 
     formData.append("username", username);
     formData.append("email", email);
-    formData.append("appointmentId", appointmentId?.toString() || "");
+    formData.append(
+      "appointmentId",
+      localStorage.getItem("appointmentId") || "0"
+    );
     if (file) {
       for (let i = 0; i < file.length; i++) {
         formData.append("file", file[i]);
