@@ -112,6 +112,7 @@ const useStyles = createUseStyles({
                       ...INPUT_TEXT,
                       width: "100%",
                       marginBottom: "20px",
+                      color: colors["text-gray-900"],
                     },
                     "& .input-file": {
                       ...INPUT_TEXT,

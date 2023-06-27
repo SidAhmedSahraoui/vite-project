@@ -30,8 +30,12 @@ const Domains: React.FC = () => {
           {!loading_categories ? (
             id === "hiring" ? (
               hiring_categories.map((category: any) => (
-                <Link to={`/interviews/show/${category.id}`} className="link">
-                  <button className="button-primary">{category.name}</button>
+                <Link
+                  key={category.categoryId}
+                  to={`/interviews/show/${category.categoryId}`}
+                  className="link"
+                >
+                  <button className="button-primary">{category.title}</button>
                 </Link>
               ))
             ) : (

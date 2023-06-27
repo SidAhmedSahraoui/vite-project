@@ -38,6 +38,7 @@ import clsx from "clsx";
 import { Appointment } from "../../types";
 import { isAfter } from "date-fns";
 import { payment } from "../../redux/planning/planning-slice";
+import colors from "../../styling/colors";
 
 interface StateType {
   email: string;
@@ -468,7 +469,12 @@ const Booking: React.FC = () => {
                       Domaine d'études :
                     </Form.Label>
                     <Form.Control asChild>
-                      <input className="Input" type="text" required />
+                      <input
+                        style={{ color: colors["text-gray-900"] }}
+                        className="Input"
+                        type="text"
+                        required
+                      />
                     </Form.Control>
                   </div>
                 </Form.Field>
@@ -485,7 +491,11 @@ const Booking: React.FC = () => {
                     </Form.Label>
                   </div>
                   <Form.Control asChild>
-                    <textarea className="Textarea" required />
+                    <textarea
+                      style={{ color: colors["text-gray-900"] }}
+                      className="Textarea"
+                      required
+                    />
                   </Form.Control>
                 </Form.Field>
                 <Form.Field className="FormField" name="file">
