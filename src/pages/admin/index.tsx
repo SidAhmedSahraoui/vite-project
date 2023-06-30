@@ -14,7 +14,7 @@ const Admin: React.FC = () => {
 
   return (
     <div className={classes.page}>
-      <div className="col-12 col-lg-3 p-0">
+      <div className="col p-0">
         <NavSidbar />
       </div>
       <div className="content">

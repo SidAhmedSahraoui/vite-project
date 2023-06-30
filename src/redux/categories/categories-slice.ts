@@ -7,8 +7,11 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialState: CategoriesState = {
   categories: [],
-  hiring_categories: [],
-  study_categories: [],
+  hiring: [],
+  study: [],
+  part_time: [],
+  training: [],
+  others: [],
   loading_categories: false,
   loading: false,
   category: null,
@@ -25,8 +28,11 @@ export const categoriesSlice = createSlice({
   reducers: {
     resetState: state => {
       state.categories = [];
-      state.hiring_categories = [];
-      state.study_categories = [];
+      state.hiring = [];
+      state.study = [];
+      state.part_time = [];
+      state.training = [];
+      state.others = [];
       state.loading_categories = false;
       state.loading = false;
       state.category = null;
@@ -48,11 +54,20 @@ export const categoriesSlice = createSlice({
     },
     LoadedCategories: (state, action) => {
       state.categories = action.payload;
-      state.hiring_categories = action.payload.filter(
-        (category: any) => category.type === "hiring"
+      state.hiring = action.payload.filter(
+        (category: any) => category.type === "HIRING"
       );
-      state.study_categories = action.payload.filter(
-        (category: any) => category.type === "study"
+      state.study = action.payload.filter(
+        (category: any) => category.type === "STUDY"
+      );
+      state.part_time = action.payload.filter(
+        (category: any) => category.type === "PART_TIME"
+      );
+      state.training = action.payload.filter(
+        (category: any) => category.type === "TRAINING"
+      );
+      state.others = action.payload.filter(
+        (category: any) => category.type === "OTHER"
       );
 
       state.loading_categories = false;
@@ -113,7 +128,7 @@ export const loadCategories = (): AppThunk => async dispatch => {
         title: "Entretien Campus France",
         description:
           "Pratiquez l'entretien Campus France avec nos experts n'hésitez plus ! réservez maintenant un entretien 1: 1, vous pouvez également réserver un entretien avec un expert pour vous aider à préparer votre dossier de candidature.",
-        type: "study",
+        type: "STUDY",
         space: "INTERVIEW",
       },
       {
@@ -121,7 +136,7 @@ export const loadCategories = (): AppThunk => async dispatch => {
         title: "Frontend Developer Interview",
         description:
           "Assurez-vous d'avoir les connaissances nécessaires pour obtenir votre premier emploi en tant qu'ingénieur frontend et grandir dans votre première étape dans le domaine informatique",
-        type: "hiring",
+        type: "HIRING",
         space: "INTERVIEW",
       },
       {
@@ -129,7 +144,7 @@ export const loadCategories = (): AppThunk => async dispatch => {
         title: "Backend Developer Interview",
         description:
           "Pratiquer toutes les questions de compétences backend,de la conception de l'API à la mise en œuvre et aux meilleures pratiques, Java, SQL ...",
-        type: "hiring",
+        type: "HIRING",
         space: "INTERVIEW",
       },
       {
@@ -137,7 +152,7 @@ export const loadCategories = (): AppThunk => async dispatch => {
         title: "Study in Canada",
         description:
           "Choisissez le pays et l'université : Renseignez-vous sur les différents pays et les universités qui offrent les programmes d'études qui vous intéressent. Considérez des facteurs tels que la réputation académique, les frais de scolarité, etc.",
-        type: "study",
+        type: "STUDY",
         space: "INTERVIEW",
       },
       {
@@ -145,7 +160,42 @@ export const loadCategories = (): AppThunk => async dispatch => {
         title: "Study in Turkey",
         description:
           "Préparez les documents nécessaires : Rassemblez les documents requis pour votre candidature, tels que les relevés de notes, les lettres de recommandation, les essais personnels, etc. Vérifiez les exigences spécifiques de chaque université.",
-        type: "study",
+        type: "STUDY",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 6,
+        title: "Ecole supérieure de l'hôtellerie et la restauration",
+        description: "Ecole supérieure de l'hôtellerie et la restauration",
+        type: "STUDY",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 7,
+        title: "Ecole supérieure de tourisme",
+        description: "Ecole supérieure de tourisme",
+        type: "STUDY",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 8,
+        title: "Ecole supérieure de commerce",
+        description: "Ecole supérieure de commerce",
+        type: "STUDY",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 9,
+        title: "Internship in Canada",
+        description: "Internship in Canada",
+        type: "TRAINING",
+        space: "INTERVIEW",
+      },
+      {
+        categoryId: 10,
+        title: "Part time designer job",
+        description: "Part time designer job",
+        type: "PART_TIME",
         space: "INTERVIEW",
       },
     ];

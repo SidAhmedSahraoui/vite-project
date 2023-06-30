@@ -12,8 +12,9 @@ import { useParams } from "react-router-dom";
 
 const Domains: React.FC = () => {
   const classes = useStyles();
-  const { hiring_categories, study_categories, loading_categories } =
-    useAppSelector(state => state.categories);
+  const { hiring, training, part_time, loading_categories } = useAppSelector(
+    state => state.categories
+  );
 
   const dispatch = useAppDispatch();
 
@@ -29,20 +30,7 @@ const Domains: React.FC = () => {
         <div className="group-link">
           {!loading_categories ? (
             id === "hiring" ? (
-              hiring_categories.map((category: any) => (
-                <Link
-                  key={category.categoryId}
-                  to={`/interviews/show/${category.categoryId}`}
-                  className="link"
-                  style={{
-                    marginBottom: "20px",
-                  }}
-                >
-                  <button className="button-primary">{category.title}</button>
-                </Link>
-              ))
-            ) : (
-              study_categories.map((category: any) => (
+              hiring.map((category: any) => (
                 <Link
                   key={category.categoryId}
                   to={`/interviews/show/${category.categoryId}`}
@@ -51,7 +39,27 @@ const Domains: React.FC = () => {
                   <button className="button-primary">{category.title}</button>
                 </Link>
               ))
-            )
+            ) : id === "training" ? (
+              training.map((category: any) => (
+                <Link
+                  key={category.categoryId}
+                  to={`/interviews/show/${category.categoryId}`}
+                  className="link"
+                >
+                  <button className="button-primary">{category.title}</button>
+                </Link>
+              ))
+            ) : id === "part-time" ? (
+              part_time.map((category: any) => (
+                <Link
+                  key={category.categoryId}
+                  to={`/interviews/show/${category.categoryId}`}
+                  className="link"
+                >
+                  <button className="button-primary">{category.title}</button>
+                </Link>
+              ))
+            ) : null
           ) : (
             <div>loading</div>
           )}

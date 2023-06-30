@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     alignItems: "flex-start",
     flexWrap: "nowrap",
     "& .content": {
-      width: "100%",
+      width: "80%",
       height: "100vh",
       padding: "20px",
       display: "flex",

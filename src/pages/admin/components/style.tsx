@@ -8,6 +8,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     width: "280px",
     height: "100vh",
+    margin: "0px",
     backgroundColor: colors["text-gray-100"],
     borderRight: `1px solid ${colors["text-gray-600"]}`,
 

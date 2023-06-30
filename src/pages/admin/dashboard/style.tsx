@@ -6,9 +6,10 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center",
     height: "100vh",
+    width: "100%",
     "& .content": {
       width: "100%",
-      height: "100vh",
+      height: "350px",
       padding: "20px",
       display: "flex",
       flexDirection: "row",
@@ -16,10 +17,10 @@ const useStyles = createUseStyles({
       "& .chart": {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         marginRight: "20px",
         "& .title": {
           marginTop: "20px",
+          textAlign: "center",
         },
       },
     },

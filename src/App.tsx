@@ -32,6 +32,8 @@ import Categories from "./pages/interviews/categories";
 import About from "./pages/about";
 import Help from "./pages/help";
 import Domains from "./pages/interviews/domains";
+import Study from "./pages/interviews/categories/study";
+import Local from "./pages/interviews/categories/study/local";
 
 function App() {
   return (
@@ -51,7 +53,10 @@ function App() {
               />
               <Route path="/services" element={<Services />} />
               <Route path="/interviews" element={<Categories />} />
+              <Route path="/interviews/study" element={<Study />} />
+              <Route path="/interviews/local" element={<Local />} />
               <Route path="/interviews/:id" element={<Domains />} />
+              {/*<Route path="/interviews/:id" element={<Domains />} />*/}
               <Route path="/interviews/show/:id" element={<InterviewShow />} />
               <Route
                 path="/interviews/:id/providers"

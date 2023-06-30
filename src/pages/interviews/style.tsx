@@ -217,6 +217,7 @@ const useStyles = createUseStyles({
         flexDirection: "column",
         "& .link": {
           width: "100%",
+          marginBottom: "10px",
           display: "flex",
           justifyContent: "center",
           "& .button-primary": {
