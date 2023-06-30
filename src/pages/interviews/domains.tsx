@@ -34,6 +34,9 @@ const Domains: React.FC = () => {
                   key={category.categoryId}
                   to={`/interviews/show/${category.categoryId}`}
                   className="link"
+                  style={{
+                    marginBottom: "20px",
+                  }}
                 >
                   <button className="button-primary">{category.title}</button>
                 </Link>
