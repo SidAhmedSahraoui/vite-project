@@ -25,8 +25,9 @@ const Interviews: React.FC = () => {
 
   const {
     categories,
-    hiring_categories,
-    study_categories,
+    hiring,
+    training,
+    part_time,
     loading,
     loading_categories,
   } = useAppSelector(state => state.categories);
@@ -184,15 +185,23 @@ const Interviews: React.FC = () => {
                       <h5>No requests found!</h5>
                     </div>
                   ) : id === "hiring" ? (
-                    hiring_categories.map(category => (
+                    hiring.map(category => (
                       <PostItem
                         key={category.categoryId}
                         post={category}
                         type={"simple"}
                       />
                     ))
-                  ) : id === "study" ? (
-                    study_categories.map(category => (
+                  ) : id === "training" ? (
+                    training.map(category => (
+                      <PostItem
+                        key={category.categoryId}
+                        post={category}
+                        type={"simple"}
+                      />
+                    ))
+                  ) : id === "part_time" ? (
+                    part_time.map(category => (
                       <PostItem
                         key={category.categoryId}
                         post={category}
