@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
   cancelAppointment,
+  downloadFile,
   downloadImage,
   getAppointmentsForProvider,
 } from "../../../redux/planning/planning-slice";
@@ -16,7 +17,16 @@ import useStyles from "./style";
 
 // Components
 import Spinner from "../../../components/spinner";
-import { Button, Card, CardGroup, Placeholder, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardGroup,
+  Placeholder,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ProviderAppointments: React.FC = () => {
   const classes = useStyles();
@@ -40,6 +50,10 @@ const ProviderAppointments: React.FC = () => {
 
   const downloadReceipt = (id: number) => {
     dispatch(downloadImage(id));
+  };
+
+  const downloadFileHandler = (id: number) => {
+    dispatch(downloadFile(id));
   };
   return (
     <>
@@ -68,7 +82,10 @@ const ProviderAppointments: React.FC = () => {
                 <CardGroup className="card-group">
                   {provider_appointments.length > 0 ? (
                     provider_appointments.map(appointment => (
-                      <div className="postitem card-shadow postitem-card p-3 mb-4">
+                      <div
+                        className="postitem card-shadow postitem-card p-3 mb-4"
+                        style={{ width: "450px" }}
+                      >
                         <div className="row">
                           <div className="col-12 d-flex flex-column text-left">
                             <div className="postitem-details-top mt-3 mt-md-0">
@@ -84,6 +101,16 @@ const ProviderAppointments: React.FC = () => {
                                       Not payed
                                     </span>
                                   )}
+                                  <Button
+                                    className="button-danger mb-2"
+                                    onClick={() =>
+                                      deleteAppointment(
+                                        appointment.appointmentId
+                                      )
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </Button>
                                 </h5>
                               </div>
                               <p className="description">
@@ -97,12 +124,27 @@ const ProviderAppointments: React.FC = () => {
                                 {appointment?.endsAt.substring(0, 5)}
                               </p>
                             </div>
-                            <div className="postitem-details-bottom mt-auto">
-                              <p className="location mb-0">{`Alger, Algerie`}</p>
-                              <p className="date mb-0">
-                                {appointment?.appointmentDate}
-                              </p>
-                            </div>
+                            <Row className="postitem-details-bottom mt-auto">
+                              <Col>
+                                <p className="location mb-0">{`Alger, Algerie`}</p>
+                                <p className="date mb-0">
+                                  {appointment?.appointmentDate}
+                                </p>
+                              </Col>
+                              <Col className="postitem-details-bottom mt-auto">
+                                <a
+                                  href="http://localhost:3001/react-hls-demo"
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <Button className="button-link mb-2">
+                                    Join meeting
+                                    <FontAwesomeIcon icon={faArrowRight} />
+                                  </Button>
+                                </a>
+                              </Col>
+                            </Row>
+
                             <div className="btns">
                               <Button
                                 onClick={() =>
@@ -114,12 +156,12 @@ const ProviderAppointments: React.FC = () => {
                               </Button>
 
                               <Button
-                                className="button-danger mb-2"
+                                className="button-gray mb-2"
                                 onClick={() =>
-                                  deleteAppointment(appointment.appointmentId)
+                                  downloadFileHandler(appointment.appointmentId)
                                 }
                               >
-                                Cancel
+                                Download file
                               </Button>
                             </div>
                           </div>

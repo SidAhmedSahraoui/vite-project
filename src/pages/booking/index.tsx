@@ -1,16 +1,17 @@
 import React, { useState, useEffect, Fragment } from "react";
 import Helmet from "react-helmet";
 import { Dialog, Transition } from "@headlessui/react";
-
+import { BUTTON_PRIMARY } from "../../styling/styling";
 // Actions
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   addAppointment,
+  getAppointments,
   getPlanning,
   setAlert,
+  uploadFile,
 } from "../../redux/planning/planning-slice";
 import * as Progress from "@radix-ui/react-progress";
-import * as Form from "@radix-ui/react-form";
 import {
   Accordion,
   AccordionContent,
@@ -38,19 +39,30 @@ import clsx from "clsx";
 import { Appointment } from "../../types";
 import { isAfter } from "date-fns";
 import { payment } from "../../redux/planning/planning-slice";
-import colors from "../../styling/colors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface StateType {
   email: string;
   username: string;
   file: FileList | null;
 }
+interface InfoState {
+  domain: string;
+  description: string;
+  otherFile: FileList | null;
+}
 
 const Booking: React.FC = () => {
   const classes = useStyles();
 
   const { user } = useAppSelector(state => state.auth);
-  const { planning, loading } = useAppSelector(state => state.planning);
+  const { planning, loading, appointment } = useAppSelector(
+    state => state.planning
+  );
 
   const { id } = useParams();
 
@@ -141,6 +153,23 @@ const Booking: React.FC = () => {
   });
   const { email, username, file } = post || {};
 
+  const [moreInfo, setMoreInfo] = useState<InfoState>({
+    domain: "",
+    description: "",
+    otherFile: null,
+  });
+
+  const { domain, description, otherFile } = moreInfo || {};
+
+  const onChangeInfo = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setMoreInfo({
+      ...moreInfo,
+      [e.target.name]: e.target.value,
+    });
+
+  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setMoreInfo({ ...moreInfo, otherFile: e.target.files });
+
   const dispatch = useAppDispatch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -150,6 +179,12 @@ const Booking: React.FC = () => {
     });
   const onChangeImages = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPost({ ...post, file: e.target.files });
+
+  const onChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setMoreInfo({
+      ...moreInfo,
+      [e.target.name]: e.target.value,
+    });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -173,6 +208,37 @@ const Booking: React.FC = () => {
     }
     dispatch(payment(formData));
   };
+
+  const onSubmitInfo = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (domain === "" || description === "") {
+      dispatch(setAlert("Please fill all fields", "danger"));
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("domain", domain);
+    formData.append("description", description);
+    formData.append(
+      "appointmentId",
+      localStorage.getItem("appointmentId") || "0"
+    );
+    if (otherFile) {
+      for (let i = 0; i < otherFile.length; i++) {
+        formData.append("file", otherFile[i]);
+      }
+    }
+    dispatch(uploadFile(formData));
+  };
+
+  const appointmentId = localStorage.getItem("appointmentId");
+
+  useEffect(() => {
+    if (appointmentId) {
+      dispatch(getAppointments(parseInt(appointmentId)));
+    }
+  }, [appointmentId]);
 
   return (
     <>
@@ -300,13 +366,13 @@ const Booking: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
-      {step === 1 ? (
+      {step === 0 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
-            <Progress.Root className="ProgressRoot" value={60}>
+            <Progress.Root className="ProgressRoot" value={0}>
               <Progress.Indicator
                 className="ProgressIndicator"
-                style={{ width: `25%` }}
+                style={{ width: `0%` }}
               />
             </Progress.Root>
           </div>
@@ -442,99 +508,81 @@ const Booking: React.FC = () => {
             </div>
           </div>
         </div>
-      ) : step === 0 ? (
+      ) : step === 1 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
-            <Progress.Root className="ProgressRoot" value={60}>
+            <Progress.Root className="ProgressRoot" value={33}>
               <Progress.Indicator
                 className="ProgressIndicator"
-                style={{ width: `0%` }}
+                style={{ width: `33%` }}
               />
             </Progress.Root>
           </div>
 
           <div className="content mt-5">
             <div className="col-form">
-              <Form.Root className="FormRoot">
-                <Form.Field className="FormField" name="domain">
-                  <div
+              <form onSubmit={onSubmitInfo}>
+                <div className="form-group">
+                  <label htmlFor="domain">Domaine</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Domaine"
+                    name="domain"
+                    value={domain}
+                    onChange={onChangeInfo}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="details">Details</label>
+                  <textarea
+                    className="form-control"
+                    placeholder="Description"
+                    name="description"
+                    value={description}
+                    onChange={onChangeDescription}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="otherFile">Autre fichier</label>
+                  <input
+                    type="file"
+                    className="form-control-file"
+                    placeholder="Autre fichier"
+                    name="otherFile"
+                    onChange={onChangeFile}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
                     style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
+                      ...BUTTON_PRIMARY,
                     }}
-                  >
-                    <Form.Label className="FormLabel">
-                      Domaine d'études :
-                    </Form.Label>
-                    <Form.Control asChild>
-                      <input
-                        style={{ color: colors["text-gray-900"] }}
-                        className="Input"
-                        type="text"
-                        required
-                      />
-                    </Form.Control>
-                  </div>
-                </Form.Field>
-                <Form.Field className="FormField" name="description">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Form.Label className="FormLabel">
-                      Ajouter une description
-                    </Form.Label>
-                  </div>
-                  <Form.Control asChild>
-                    <textarea
-                      style={{ color: colors["text-gray-900"] }}
-                      className="Textarea"
-                      required
-                    />
-                  </Form.Control>
-                </Form.Field>
-                <Form.Field className="FormField" name="file">
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Form.Label className="FormLabel">
-                      Ajouter un Document :
-                    </Form.Label>
-                    <Form.Control asChild>
-                      <input className="File" type="file" required />
-                    </Form.Control>
-                  </div>
-                </Form.Field>
-              </Form.Root>
-            </div>
-            <div className="section basic-info mt-4">
-              <Link to="/interviews/1/providers">
-                <button className="btn btn-secondary">Back</button>
-              </Link>
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Submit"
+                  />
+                </div>
+                <div className="section basic-info mt-4">
+                  <Link to="/interviews/1/providers">
+                    <button className="btn btn-secondary">Back</button>
+                  </Link>
 
-              <button onClick={onNext} className="btn btn-primary">
-                Continue
-              </button>
+                  <button onClick={onNext} className="btn btn-primary">
+                    Continue
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       ) : step === 2 ? (
         <div className={`${classes.page} card-shadow text-center`}>
           <div className="head">
-            <Progress.Root className="ProgressRoot" value={80}>
+            <Progress.Root className="ProgressRoot" value={66}>
               <Progress.Indicator
                 className="ProgressIndicator"
-                style={{ width: `50%` }}
+                style={{ width: `66%` }}
               />
             </Progress.Root>
           </div>
@@ -595,12 +643,42 @@ const Booking: React.FC = () => {
                   </AccordionItem>
                 </Accordion>
                 <div className="paper">
-                  <h5>Nous confirmons votre RDV </h5>
-                  <h5>Candidat : Sid Ahmed SAHRAOUI</h5>
-                  <h5>Date : Jeudi 18 septembre</h5>
-                  <h5>Heure : 16h30 </h5>
-                  <h5>Durée : 30 min </h5>
-                  <h5>Metez vous a l’heure.</h5>
+                  {!loading && appointment ? (
+                    <>
+                      <h5>Nous confirmons votre RDV </h5>
+                      <h5>Email de Candidat : {appointment.clientEmail} </h5>
+                      <h5>
+                        Email de prestataire : {appointment.providerEmail}{" "}
+                      </h5>
+                      <h5>
+                        Date :{" "}
+                        {new Date(
+                          appointment.appointmentDate
+                        ).toLocaleDateString("fr-FR", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </h5>
+                      <h5>
+                        Heure :
+                        {parseInt(appointment.startsAt.split(":")[0]) > 12
+                          ? `${
+                              parseInt(appointment.startsAt.split(":")[0]) - 12
+                            }:${appointment.startsAt.split(":")[1]} PM`
+                          : `${appointment.startsAt.split(":")[0]}:${
+                              appointment.startsAt.split(":")[1]
+                            } AM`}
+                      </h5>
+                      <h5>Durée : 30 min </h5>
+                      <h5>Metez vous a l’heure.</h5>
+                    </>
+                  ) : (
+                    <>
+                      <h5>Vous n'avez pas de RDV</h5>
+                    </>
+                  )}
                 </div>
               </Row>
             </div>
@@ -612,6 +690,79 @@ const Booking: React.FC = () => {
               <button onClick={onNext} className="btn btn-primary">
                 Continue
               </button>
+            </div>
+          </div>
+        </div>
+      ) : step === 3 ? (
+        <div className={`${classes.page} card-shadow text-center`}>
+          <div className="head">
+            <Progress.Root className="ProgressRoot" value={100}>
+              <Progress.Indicator
+                className="ProgressIndicator"
+                style={{ width: `100%` }}
+              />
+            </Progress.Root>
+          </div>
+
+          <div className="content mt-5">
+            {loading && appointment ? (
+              <>
+                <h2>
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    color="green"
+                    size="1x"
+                  />
+                  Félicitations
+                </h2>
+                <h5>
+                  Votre RDV est confirmé. Vous recevrez un email de confirmation
+                </h5>
+
+                <div className="paper">
+                  <h5>Email de Candidat : {appointment.clientEmail} </h5>
+                  <h5>Email de prestataire : {appointment.providerEmail} </h5>
+                  <h5>
+                    Date :{" "}
+                    {new Date(appointment.appointmentDate).toLocaleDateString(
+                      "fr-FR",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </h5>
+                  <h5>
+                    Heure :
+                    {parseInt(appointment.startsAt.split(":")[0]) > 12
+                      ? `${parseInt(appointment.startsAt.split(":")[0]) - 12}:${
+                          appointment.startsAt.split(":")[1]
+                        } PM`
+                      : `${appointment.startsAt.split(":")[0]}:${
+                          appointment.startsAt.split(":")[1]
+                        } AM`}
+                  </h5>
+                  <h5>Durée : 30 min </h5>
+                  <h5>Metez vous a l’heure.</h5>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>
+                  <FontAwesomeIcon icon={faTimesCircle} color="red" size="1x" />
+                  Désolé ! Votre RDV n'est pas confirmé
+                </h2>
+              </>
+            )}
+            <div className="section basic-info mt-4">
+              <Link to="/">
+                <button className="btn btn-secondary">Back</button>
+              </Link>
+              <Link to="/">
+                <button className="btn btn-primary">Continue</button>
+              </Link>
             </div>
           </div>
         </div>

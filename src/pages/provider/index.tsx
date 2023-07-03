@@ -317,7 +317,7 @@ const Provider: React.FC = () => {
                 <option value={0}>Select Time To Start</option>
                 {slots.map(slot => (
                   <option key={slot.timeSlotId} value={slot.timeSlotId}>
-                    {slot.startsAt}
+                    {slot.startsAt.substring(0, 5)}
                   </option>
                 ))}
               </select>
@@ -337,7 +337,7 @@ const Provider: React.FC = () => {
                 <option value={0}>Select Time To End</option>
                 {slots.map(slot => (
                   <option key={slot.timeSlotId} value={slot.timeSlotId}>
-                    {slot.endsAt}
+                    {slot.endsAt.substring(0, 5)}
                   </option>
                 ))}
               </select>

@@ -46,6 +46,8 @@ const useStyles = createUseStyles({
       "& .paper": {
         backgroundColor: "rgb(245, 245, 245)",
         border: "1px solid rgba(224, 224, 224, 1)",
+        textAlign: "start",
+        padding: "25px 28px",
       },
     },
 

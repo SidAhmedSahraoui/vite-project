@@ -37,7 +37,7 @@ const DialogPhone: React.FC<Props> = props => {
           ) : (
             <>
               <FontAwesomeIcon className="icon mr-2" icon={faPhoneAlt} />
-              <h5 className="title">Phone number</h5>
+              <h5 className="title">Numero de téléphone</h5>
               <span className="phone-number">{phone}</span>
             </>
           )}

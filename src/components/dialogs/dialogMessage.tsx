@@ -28,7 +28,7 @@ const DialogMessage: React.FC<Props> = props => {
       >
         <Modal.Body className="text-center py-4">
           <FontAwesomeIcon className="icon mr-2" icon={faEnvelope} />
-          <h5 className="title">Send a message</h5>
+          <h5 className="title">Envoyer un message</h5>
 
           <textarea
             className="form-control mt-3"
@@ -39,7 +39,7 @@ const DialogMessage: React.FC<Props> = props => {
 
           <button className="button-primary mt-3" onClick={sendMessage}>
             <FontAwesomeIcon className="mr-2" icon={faPaperPlane} />
-            Send
+            Envoyer
           </button>
         </Modal.Body>
       </Modal>

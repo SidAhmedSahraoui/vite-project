@@ -70,6 +70,25 @@ const useStyles = createUseStyles({
         },
       },
       "& .col-form": {
+        "& .form-group": {
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          "& label": {
+            width: "20%",
+            textAlign: "left",
+            fontWeight: "600",
+            fontSize: "16px",
+          },
+          "& .form-control": {
+            ...INPUT_TEXT,
+            width: "fit-content",
+          },
+          "& .form-control-file": {
+            width: "250px",
+          },
+        },
         "& .row-container": {
           display: "flex",
           alignItems: "flex-start",
@@ -128,6 +147,9 @@ const useStyles = createUseStyles({
           "& .paper": {
             backgroundColor: "rgb(245, 245, 245)",
             border: "1px solid rgba(224, 224, 224, 1)",
+            padding: "25px 28px",
+            textAlign: "left",
+            margin: "0px 10px",
           },
         },
         "& input textarea button": {

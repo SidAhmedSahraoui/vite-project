@@ -8,6 +8,7 @@ import {
   BUTTON_LIGHT,
   LINK_PRIMARY,
   BUTTON_DANGER,
+  BUTTON_GRAY,
 } from "../../../styling/styling";
 
 const useStyles = createUseStyles({
@@ -16,6 +17,13 @@ const useStyles = createUseStyles({
     marginBottom: "40px",
     margin: "0 auto",
     height: "100vh",
+    "& .line-top": {
+      "& .title": {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      },
+    },
     "& .btns": {
       marginTop: "12px",
       display: "flex",
@@ -72,9 +80,19 @@ const useStyles = createUseStyles({
           background: colors["primary-hover"],
         },
       },
+      "& .button-link": {
+        ...LINK_PRIMARY,
+        color: colors["text-gray-100"],
+        backgroundColor: colors["text-gray-900"],
+        border: "none",
+        "&:hover": {
+          color: colors["text-gray-100"],
+          backgroundColor: colors["text-gray-900"],
+        },
+      },
       "& .button-primary-outline": BUTTON_PRIMARY_OUTLINE,
       "& .button-light": BUTTON_LIGHT,
-      "& .button-gray": BUTTON_PRIMARY,
+      "& .button-gray": BUTTON_GRAY,
       "& .button-danger": BUTTON_DANGER,
       "& .input-select": {
         height: "auto",

@@ -80,7 +80,7 @@ const PostItem = (props: any) => {
       <td>{providerId}</td>
       <td>
         <Link className="link-primary" to={`/booking/${user.username}`}>
-          {`${user.firstName} ${user.lastName}`}{" "}
+          {user.username}{" "}
         </Link>
       </td>
       <td>{category != null && category.title}</td>

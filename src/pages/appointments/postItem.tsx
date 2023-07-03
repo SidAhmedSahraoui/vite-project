@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 
 import NoImage from "../../assets/images/no-image.svg";
-/*import Euro from "../../assets/images/Euro.png";
-import Frontend from "../../assets/images/frontend.png";
-import Backend from "../../assets/images/backend.png";
-import { MyAppointment } from "../../types";*/
 import { Button, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -48,12 +44,6 @@ const PostItem = (props: PropsType) => {
                   <span className="ml-5 badge badge-danger">Not payed</span>
                 )}
               </h5>
-              {!post.isPayed && (
-                <Link to={`/payment/${post.appointmentId}`}>
-                  Pay fees
-                  <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-                </Link>
-              )}
             </div>
             <p className="description">
               <strong>Provider email: </strong> {post?.providerEmail}
@@ -68,9 +58,15 @@ const PostItem = (props: PropsType) => {
             <p className="date mb-0">{post?.appointmentDate}</p>
           </div>
           <Row className="row-bottom">
-            <Link to={`/payment/${post.appointmentId}`}>
-              <Button className="button-primary mb-2">Go to meeting</Button>
-            </Link>
+            {!post.isPayed ? (
+              <Link to={`/payment/${post.appointmentId}`}>
+                <Button className="button-primary mb-2">Pay fees</Button>
+              </Link>
+            ) : (
+              <a href="http://localhost:3001/react-hls-demo">
+                <Button className="button-primary mb-2">Go to meeting</Button>
+              </a>
+            )}
 
             <Button className="button-danger mb-2" onClick={onCancel}>
               Cancel Appointment

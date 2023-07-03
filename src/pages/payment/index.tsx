@@ -6,10 +6,10 @@ import { WEBSITE_NAME } from "../../utils/websiteData";
 
 // Styles
 import useStyles from "./style";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setAlert } from "../../redux/error/error-slice";
 import { useParams } from "react-router-dom";
-import { payment } from "../../redux/planning/planning-slice";
+import { getAppointments, payment } from "../../redux/planning/planning-slice";
 import {
   Accordion,
   AccordionContent,
@@ -31,6 +31,8 @@ interface StateType {
 const Payment: React.FC = () => {
   const classes = useStyles();
 
+  const { appointment, loading } = useAppSelector(state => state.planning);
+
   const { id } = useParams();
   const [post, setPost] = useState<StateType>({
     email: "",
@@ -44,6 +46,7 @@ const Payment: React.FC = () => {
   useEffect(() => {
     if (id) {
       setPost({ ...post, appointmentId: parseInt(id) });
+      dispatch(getAppointments(parseInt(id)));
     }
   }, [id]);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -77,11 +80,16 @@ const Payment: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{`${WEBSITE_NAME} | Appointments`}</title>
+        <title>{`${WEBSITE_NAME} | Payment`}</title>
       </Helmet>
 
       <div className={`${classes.page} text-center`}>
-        <div className="card-shadow search-form">
+        <div
+          className="card-shadow search-form"
+          style={{
+            height: "650px",
+          }}
+        >
           <h3 className="title">Payment</h3>
           <h6 className="subtitle">Proceed with payment</h6>
           <Progress value={33} />
@@ -127,32 +135,43 @@ const Payment: React.FC = () => {
                   </form>{" "}
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem className="item" value="item-2">
-                <AccordionTrigger className="sub-item">
-                  Is it styled?
-                </AccordionTrigger>
-                <AccordionContent className="sub-item">
-                  Yes. It comes with default styles that matches the other
-                  components' aesthetic.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem className="item" value="item-3">
-                <AccordionTrigger className="sub-item">
-                  Is it animated?
-                </AccordionTrigger>
-                <AccordionContent className="sub-item">
-                  Yes. It's animated by default, but you can disable it if you
-                  prefer.
-                </AccordionContent>
-              </AccordionItem>
             </Accordion>
             <div className="paper">
-              <h5>Nous confirmons votre RDV </h5>
-              <h5>Candidat : Sid Ahmed SAHRAOUI</h5>
-              <h5>Date : Jeudi 18 septembre</h5>
-              <h5>Heure : 16h30 </h5>
-              <h5>Durée : 30 min </h5>
-              <h5>Metez vous a l’heure.</h5>
+              {!loading && appointment ? (
+                <>
+                  <h5>Nous confirmons votre RDV </h5>
+                  <h5>Email de Candidat : {appointment.clientEmail} </h5>
+                  <h5>Email de prestataire : {appointment.providerEmail} </h5>
+                  <h5>
+                    Date :{" "}
+                    {new Date(appointment.appointmentDate).toLocaleDateString(
+                      "fr-FR",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </h5>
+                  <h5>
+                    Heure :
+                    {parseInt(appointment.startsAt.split(":")[0]) > 12
+                      ? `${parseInt(appointment.startsAt.split(":")[0]) - 12}:${
+                          appointment.startsAt.split(":")[1]
+                        } PM`
+                      : `${appointment.startsAt.split(":")[0]}:${
+                          appointment.startsAt.split(":")[1]
+                        } AM`}
+                  </h5>
+                  <h5>Durée : 30 min </h5>
+                  <h5>Metez vous a l’heure.</h5>
+                </>
+              ) : (
+                <>
+                  <h5>Vous n'avez pas de RDV</h5>
+                </>
+              )}
             </div>
           </Row>
         </div>

@@ -165,7 +165,7 @@ const InterviewShow: React.FC = () => {
                       </div>
 
                       <h5 className="title mb-4">
-                        You want to get more informations?
+                        Pour plus d'informations, veuillez contacter nous
                       </h5>
 
                       <div className="mt-4">
@@ -178,7 +178,7 @@ const InterviewShow: React.FC = () => {
                               className="mr-2"
                               icon={faPhoneAlt}
                             />
-                            Phone call
+                            Appel direct
                           </button>
                         </div>
                         <div className="d-block d-md-inline-block mb-2 mr-md-2">
@@ -190,7 +190,7 @@ const InterviewShow: React.FC = () => {
                               className="mr-2"
                               icon={faMessage}
                             />
-                            Send a message
+                            Envoyer un message
                           </button>
                         </div>
                         <div className="d-inline d-md-inline-block">
@@ -202,7 +202,7 @@ const InterviewShow: React.FC = () => {
                               className="mr-2"
                               icon={faEnvelope}
                             />
-                            Book an interview
+                            Prendre un rendez-vous
                           </Link>
                         </div>
                       </div>

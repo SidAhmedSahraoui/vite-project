@@ -8,6 +8,10 @@ import Home1 from "../../assets/images/Home.svg";
 import useStyles from "./home";
 import { Card } from "react-bootstrap";
 import home from "../../assets/images/home.svg";
+import Interview from "../../assets/interview.png";
+import Consulting from "../../assets/consulting.png";
+import Sharing from "../../assets/sharing.png";
+
 import { useAppSelector } from "../../redux/hooks";
 const Home = () => {
   const classes = useStyles();
@@ -72,7 +76,7 @@ const Home = () => {
         <div className="features flex">
           <Card className="card">
             <div className="logo-card">
-              <img src={Home1} alt="logo" className="h-16 w-16" />
+              <img src={Interview} alt="logo" className="h-16 w-16" />
             </div>
             <h4 className="title-card">Preparation aux Entretiens</h4>
             <p className="text-card">
@@ -84,7 +88,7 @@ const Home = () => {
           </Card>
           <Card className="card">
             <div className="logo-card">
-              <img src={Home1} alt="logo" className="h-16 w-16" />
+              <img src={Consulting} alt="logo" className="h-16 w-16" />
             </div>
             <h4 className="title-card">Consultation en ligne</h4>
             <p className="text-card">
@@ -98,7 +102,7 @@ const Home = () => {
           </Card>
           <Card className="card">
             <div className="logo-card">
-              <img src={Home1} alt="logo" className="h-16 w-16" />
+              <img src={Sharing} alt="logo" className="h-16 w-16" />
             </div>
             <h4 className="title-card">Prendre l’experience</h4>
             <p className="text-card">

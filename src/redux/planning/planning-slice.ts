@@ -20,6 +20,7 @@ const initialState: PlanningState = {
   error: [],
   provider_appointments: [],
   client_appointments: [],
+  appointment: null,
 };
 
 export const PlanningSlice = createSlice({
@@ -58,6 +59,19 @@ export const PlanningSlice = createSlice({
       state.provider_appointments = action.payload;
       state.error = [];
     },
+    appointmentLoaded: (state, action) => {
+      state.loading = false;
+      state.appointment = {
+        appointmentId: action.payload.appointmentId,
+        clientEmail: action.payload.clientEmail,
+        providerEmail: action.payload.providerEmail,
+        appointmentDate: action.payload.appointmentDate,
+        startsAt: action.payload.startsAt,
+        endsAt: action.payload.endsAt,
+        isPayed: action.payload.isPayed,
+      };
+      state.error = [];
+    },
     setLoading: state => {
       state.loading = true;
     },
@@ -85,6 +99,7 @@ export const {
   planningLoaded,
   clientAppointmentsLoaded,
   providerAppointmentsLoaded,
+  appointmentLoaded,
   setLoading,
   addError,
   removeError,
@@ -257,6 +272,21 @@ export const addPlanning =
     }
   };
 
+export const getAppointments =
+  (id: number): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.get(
+        `${Api}/interview-service/interviews/appointment/${id}`
+      );
+      console.log(res.data);
+      dispatch(appointmentLoaded(res.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(addError("Error loading appointment"));
+    }
+  };
 export const addAppointment =
   (appointment: Appointment): AppThunk =>
   async dispatch => {
@@ -329,6 +359,7 @@ export const payment =
   async dispatch => {
     try {
       dispatch(setLoading());
+      console.log(typeof formData.get("appointmentId"));
       const res: AxiosResponse = await axios.post(
         `${Api}/interview-service/interviews/payment`,
         formData
@@ -337,6 +368,53 @@ export const payment =
     } catch (err) {
       console.log(err);
       dispatch(setAlert("Error canceling appointment", "danger"));
+    }
+  };
+
+export const uploadFile =
+  (formData: FormData): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(setLoading());
+      const res: AxiosResponse = await axios.post(
+        `${Api}/interview-service/interviews/info`,
+        formData
+      );
+      dispatch(setAlert(res.data?.message, "success"));
+    } catch (err) {
+      console.log(err);
+      dispatch(setAlert("Error canceling appointment", "danger"));
+    }
+  };
+
+export const downloadFile =
+  (apointmentId: number): AppThunk =>
+  async dispatch => {
+    try {
+      const response: AxiosResponse = await axios({
+        url: `${Api}/interview-service/interviews/info/${apointmentId}`,
+        method: "GET",
+        responseType: "blob", // Set the response type to 'blob' for downloading files
+      });
+
+      // Create a temporary URL for the blob response
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Create a link element and simulate a click to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "file.pdf");
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up the temporary URL and link element
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+
+      dispatch(setAlert("File downloaded successfully", "success"));
+    } catch (err) {
+      console.log(err);
+      dispatch(setAlert("Error canceling download", "danger"));
     }
   };
 

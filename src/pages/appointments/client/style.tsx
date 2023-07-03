@@ -64,6 +64,7 @@ const useStyles = createUseStyles({
     },
 
     "& .content": {
+      padding: "20px",
       "& .posts": {
         width: "100% !important",
         display: "flex",
@@ -71,7 +72,13 @@ const useStyles = createUseStyles({
         gap: "25px",
         "& .postitem-card": {
           ...POSTITEM_CARD,
+          border: `2px solid ${colors["text-gray-400"]}`,
           backgroundColor: colors["text-gray-100"],
+          "&:hover": {
+            ...CARD_SHADOW,
+            backgroundColor: colors["text-gray-200"],
+            cursor: "pointer",
+          },
           width: "fit-content",
           maxWidth: "550px",
           "& .line-top": {

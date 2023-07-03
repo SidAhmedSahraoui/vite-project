@@ -43,8 +43,19 @@ export interface PlanningState {
   error: Array<Error>;
   provider_appointments: Array<MyAppointment>;
   client_appointments: Array<MyAppointment>;
+  appointment: AppointmentInfoType | null;
 }
 
+// AppointmentInfoType
+export interface AppointmentInfoType {
+  appointmentId: number;
+  clientEmail: string;
+  providerEmail: string;
+  appointmentDate: string;
+  startsAt: string;
+  endsAt: string;
+  isPayed: boolean;
+}
 // Error State
 export type ErrorState = Array<Error>;
 
@@ -206,7 +217,7 @@ export interface AdminState {
 
 export interface AddCategorySchema {
   title: string;
-  type: string;
+  type: number;
   description: string;
   space: number;
 }

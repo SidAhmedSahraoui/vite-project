@@ -8,7 +8,7 @@ const AddCategories: React.FC = () => {
   const classes = useStyles();
   const [category, setCategory] = React.useState<AddCategorySchema>({
     title: "",
-    type: "",
+    type: 0,
     description: "",
     space: 0,
   });
@@ -18,8 +18,11 @@ const AddCategories: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCategory({ ...category, title: e.target.value });
 
-  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  const handleChangeSelectSpace = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setCategory({ ...category, space: parseInt(e.target.value) });
+
+  const handleChangeSelectType = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setCategory({ ...category, type: parseInt(e.target.value) });
 
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setCategory({ ...category, description: e.target.value });
@@ -63,14 +66,21 @@ const AddCategories: React.FC = () => {
             </div>
             <div className="form-group">
               <label htmlFor="space">Type</label>
-              <select onChange={handleChangeSelect} id="space" name="space">
-                <option value={"study"}>Study</option>
-                <option value={"hiring"}>Hiring</option>
+              <select onChange={handleChangeSelectType} id="space" name="space">
+                <option value={0}>Hiring</option>
+                <option value={1}>Study</option>
+                <option value={2}>Training</option>
+                <option value={3}>Part Time</option>
+                <option value={4}>Others</option>
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="space">Space</label>
-              <select onChange={handleChangeSelect} id="space" name="space">
+              <select
+                onChange={handleChangeSelectSpace}
+                id="space"
+                name="space"
+              >
                 <option value={0}>Interview</option>
                 <option value={1}>Consultation</option>
                 <option value={2}>Sharing Experience</option>

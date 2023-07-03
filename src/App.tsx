@@ -34,6 +34,7 @@ import Help from "./pages/help";
 import Domains from "./pages/interviews/domains";
 import Study from "./pages/interviews/categories/study";
 import Local from "./pages/interviews/categories/study/local";
+import Inter from "./pages/interviews/categories/study/inter";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
               <Route path="/interviews" element={<Categories />} />
               <Route path="/interviews/study" element={<Study />} />
               <Route path="/interviews/local" element={<Local />} />
+              <Route path="/interviews/inter" element={<Inter />} />
               <Route path="/interviews/:id" element={<Domains />} />
               {/*<Route path="/interviews/:id" element={<Domains />} />*/}
               <Route path="/interviews/show/:id" element={<InterviewShow />} />
